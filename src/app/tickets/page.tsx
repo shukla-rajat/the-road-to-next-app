@@ -18,7 +18,7 @@ const TicketsPage = () => {
           Your home place for tickets
         </p>
       </div>
-      <div className="flex-1 flex flex-col items-center gap-y-4">
+      <div className="flex-1 flex flex-col items-center gap-y-4 animate-fade-from-top">
         {initialTickets.map((ticket) => (
           <div
             key={ticket.id}
