@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import Link from "next/link";
 import { homePath, ticketsPath } from "@/paths";
 import { buttonVariants } from "@/components/ui/button";
+import { LucideKanban } from "lucide-react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,10 +42,11 @@ export default function RootLayout({
         >
           <div>
             <Link
-              className={buttonVariants({ variant: "outline" })}
+              className={buttonVariants({ variant: "ghost" })}
               href={homePath()}
             >
-              Home
+              <LucideKanban />
+              <h1 className="ml-2 text-lg font-semibold">TicketBounty</h1>
             </Link>
           </div>
           <div>
