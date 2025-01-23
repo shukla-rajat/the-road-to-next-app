@@ -3,6 +3,7 @@ import { Placeholder } from "@/components/placeholder";
 import { Button } from "@/components/ui/button";
 import { ticketsPath } from "@/paths";
 import Link from "next/link";
+import { TicketItem } from "@/features/ticket/components/ticket-item";
 
 type TicketPageProps = {
   params: Promise<{
@@ -25,12 +26,17 @@ const TicketPage = async ({ params }: TicketPageProps) => {
       }
     />
   }
-  return (
+  /*return (
     <div>
       <h2 className="text-lg"> Ticket Page: {ticket.id} </h2>
       <h2 className="text-lg"> Ticket Title: {ticket.title} </h2>
       <h2 className="text-lg"> Ticket Content {ticket.content} </h2>
       <h2 className="text-lg"> Ticket Status: {ticket.status} </h2>
+    </div>
+  );*/
+  return (
+    <div className="flex justify-center animate-fade-in-from-top">
+      <TicketItem ticket={ticket} isDetail/>
     </div>
   );
 };
