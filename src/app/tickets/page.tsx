@@ -1,15 +1,4 @@
-import clsx from "clsx";
-import Link from "next/link";
 import { initialTickets } from "@/data";
-import { ticketPath } from "@/paths";
-import {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
 import { Heading } from "@/components/heading";
 import { TicketItem } from "@/features/ticket/components/ticket-item";
 
