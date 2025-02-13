@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "force-install": "npm install react-error-boundary --force",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
