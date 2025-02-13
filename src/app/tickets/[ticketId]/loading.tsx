@@ -1,4 +1,5 @@
+import { Spinner } from "@/components/spinner";
 
 export default function Loading(){
-    return <div>Loading Ticket ...</div>
+    return <Spinner />
 }
