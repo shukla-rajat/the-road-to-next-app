@@ -1,4 +1,10 @@
 {
+  "extends": [
+    // other configurations...
+    "plugin:@next/next/recommended", // or "next"
+    "next/core-web-vitals", // If you use Core Web Vitals rules
+    "next/typescript"
+  ],
   "plugins": ["simple-import-sort"],
   "rules": {
     "simple-import-sort/imports": "error",
