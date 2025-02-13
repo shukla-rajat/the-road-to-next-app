@@ -7,7 +7,8 @@ export const getTickets = async (): Promise<Ticket[]> => {
       setTimeout(resolve, 2000);
     });
 
-    return new Promise((resolve) => {
+    throw new Error("Failed to fetch tickets");
+    /*return new Promise((resolve) => {
       resolve(initialTickets);
-    }); 
+    });*/ 
 }
