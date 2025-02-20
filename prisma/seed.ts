@@ -1,6 +1,4 @@
-import { PrismaClient} from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 const tickets = [
     {
@@ -21,19 +19,6 @@ const tickets = [
   ];
   
 const seed = async () => {
-    /*for (const ticket of tickets) {
-        await prisma.ticket.create({
-        data: ticket,
-        });
-    }*/
-
-    /*const promises = tickets.map(ticket => {
-        prisma.ticket.create({
-            data:ticket,
-        })
-    })
-    await Promise.all(promises);*/
-
     const t0 = performance.now();
     console.log('DB seed: Started...');
     
