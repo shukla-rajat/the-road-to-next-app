@@ -8,13 +8,16 @@ import { LucideSquareArrowOutUpRight, LucideTrash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Ticket } from "@prisma/client";
 import { deleteTicket } from "../actions/delete-ticket";
+import { getTicket } from '../queries/get-ticket';
 
 type TicketItemProps = {
     ticket: Ticket;
     isDetail?: boolean;
 };
 
-const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
+const TicketItem = async({ ticket, isDetail }: TicketItemProps) => {
+    const ticketPerTicketItem = await getTicket(ticket.id);
+
     const detailButton = (
         <Button variant="outline" size="icon" asChild>
             <Link prefetch href={ticketPath(ticket.id)}><LucideSquareArrowOutUpRight className="h-4 w-4"/></Link>    
