@@ -1,7 +1,7 @@
 
 import clsx from "clsx";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { ticketPath } from "@/paths";
+import { ticketPath, ticketEditPath } from "@/paths";
 import Link from "next/link";
 import { TICKET_ICONS } from "../constants";
 import { LucideSquareArrowOutUpRight, LucideTrash, LucidePencil } from "lucide-react";
@@ -24,7 +24,7 @@ const TicketItem = async({ ticket, isDetail }: TicketItemProps) => {
 
     const editButton = (
         <Button variant="outline" size="icon" asChild>
-            <Link prefetch href={`/tickets/${ticket.id}/edit`}>
+            <Link prefetch href={ticketEditPath(ticket.id)}>
                 <LucidePencil className="h-4 w-4"/>
             </Link>
         </Button>
