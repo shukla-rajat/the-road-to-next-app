@@ -2,7 +2,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { createTicket } from "@/features/ticket/actions/create-ticket";
+import { updateTicket } from "@/features/ticket/actions/update-ticket";
 import { Ticket } from "@prisma/client";
 
 type TicketUpdateFormProps = {
@@ -12,7 +12,9 @@ type TicketUpdateFormProps = {
 const TicketUpdateForm = ({ticket}: TicketUpdateFormProps) => {
 
     return (
-        <form action={createTicket} className="flex flex-col gap-y-2">
+        <form action={updateTicket} className="flex flex-col gap-y-2">
+            <Input name="id" type="hidden" defaultValue={ticket.id} />
+
             <Label htmlFor="title">Title</Label>
             <Input id="title" name="title" type="text" defaultValue={ticket.title}/>
 
