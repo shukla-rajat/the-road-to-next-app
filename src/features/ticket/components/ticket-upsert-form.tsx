@@ -3,26 +3,9 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { upsertTicket } from "@/features/ticket/actions/upsert-ticket";
 import { Ticket } from "@prisma/client";
-import { useFormStatus } from "react-dom";
-import { LucideLoaderCircle } from "lucide-react";
-
-
-type SubmitButtonProps = {
-    label: string;
-};
-
-const SubmitButton = ({label}: SubmitButtonProps) => {
-    const {pending} = useFormStatus();
-    return (
-        <Button disabled={pending} type="submit">
-            {pending && (<LucideLoaderCircle className="mr-2 h-4 w-4 animate-spin"/>)}
-            {label}
-        </Button>
-    )    
-}
+import {SubmitButton} from "@/components/form/submit-button";
 
 type TicketUpsertFormProps = {
     ticket?: Ticket;
