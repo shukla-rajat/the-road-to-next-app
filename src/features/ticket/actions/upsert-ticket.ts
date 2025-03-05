@@ -5,7 +5,10 @@ import { ticketsPath, ticketPath } from "@/paths";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { fromErrorToActionState, ActionState } from "@/components/form/utils/to-action-state";
+import {
+  fromErrorToActionState,
+  ActionState,
+} from "@/components/form/utils/to-action-state";
 
 const upsertTicketSchema = z.object({
   title: z.string().min(1).max(191),
@@ -22,7 +25,7 @@ export const upsertTicket = async (
       title: formData.get("title"),
       content: formData.get("content"),
     });
-  
+
     await prisma.ticket.upsert({
       where: {
         id: id || "",
@@ -30,18 +33,15 @@ export const upsertTicket = async (
       update: data,
       create: data,
     });
-  
-  }
-  catch(error){
+  } catch (error) {
     return fromErrorToActionState(error, formData);
-
   }
-  
+
   revalidatePath(ticketsPath());
 
   if (id) {
     redirect(ticketPath(id));
   }
 
-  return { message: "Ticket created" };
+  return { message: "Ticket created", fieldErrors: {} };
 };
