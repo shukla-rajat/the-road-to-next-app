@@ -22,8 +22,12 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
   );
 
   useActionFeedback(actionState, {
-    onSuccess: () => {},
-    onError: () => {},
+    onSuccess: ({actionState}) => {
+      console.log(actionState.message);
+    },
+    onError: ({actionState}) => {
+      console.log(actionState.message);
+    },
   });
 
   return (

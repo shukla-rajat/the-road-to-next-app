@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { ActionState } from "../utils/to-action-state";
 
 type UseActionFeedbackOptions = {
-    onSuccess?: () => void;
-    onError?: () => void;
+    onSuccess?: ({ actionState }: { actionState: ActionState }) => void;
+    onError?: ({ actionState }: { actionState: ActionState }) => void;
 };
 
 const useActionFeedback = (
@@ -12,17 +12,11 @@ const useActionFeedback = (
 ) => {
     useEffect(() => {
         if(actionState.status === "SUCCESS") {
-          //console.log(actionState.message);
-          if(options.onSuccess) {
-            options.onSuccess();
-          }
+            options.onSuccess?.({actionState});
         }
     
         if(actionState.message === "ERROR") {
-          //console.log(actionState.message);
-          if(options.onError) {
-            options.onError();
-          }
+            options.onError?.({actionState});
         }
     },[actionState, options]);
 }
