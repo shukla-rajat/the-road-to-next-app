@@ -17,7 +17,7 @@ const useActionFeedback = (
             options.onSuccess?.({actionState});
         }
     
-        if(actionState.message === "ERROR") {
+        if(actionState.status === "ERROR") {
             options.onError?.({actionState});
         }
     },[actionState, options]);
