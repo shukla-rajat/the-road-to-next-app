@@ -1,5 +1,6 @@
 "use server";
 
+import { setCookieByKey } from "@/actions/cookies";
 import { redirect } from "next/navigation";
 import { ticketsPath, ticketPath } from "@/paths";
 import { revalidatePath } from "next/cache";
@@ -41,6 +42,7 @@ export const upsertTicket = async (
   revalidatePath(ticketsPath());
 
   if (id) {
+    await setCookieByKey("toast", "Ticket updated");
     redirect(ticketPath(id));
   }
 
