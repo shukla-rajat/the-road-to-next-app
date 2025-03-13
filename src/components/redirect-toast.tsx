@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { deleteCookieByKey, getCookieByKey } from "@/actions/cookies";
 
 const RedirectToast = () => {
-    const pathname = usePathname();
+    //const pathname = usePathname();
 
     useEffect(() => {
         const showCookieToast = async () => {
@@ -19,7 +19,7 @@ const RedirectToast = () => {
         }
         
         showCookieToast();
-    }, [pathname]);
+    }, []);
 
     return null;
 };
