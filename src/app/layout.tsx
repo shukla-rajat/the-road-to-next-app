@@ -1,4 +1,5 @@
 import "./globals.css";
+import { RedirectToast } from "@/components/redirect-toast";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import {Header} from "@/components/header";
@@ -45,6 +46,7 @@ export default function RootLayout({
             {children}
           </main>
           <Toaster expand/>
+          <RedirectToast />
         </ThemeProvider>
       </body>
     </html>
