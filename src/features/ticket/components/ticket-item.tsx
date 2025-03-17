@@ -1,4 +1,5 @@
 
+import { toCurrencyFromCent } from "@/utils/currency";
 import clsx from "clsx";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { ticketPath, ticketEditPath } from "@/paths";
@@ -58,7 +59,7 @@ const TicketItem = async({ ticket, isDetail }: TicketItemProps) => {
                 </CardContent>
                 <CardFooter className="flex justify-between">
                     <p className="text-sm text-muted-foreground">{ticket.deadline}</p>
-                    <p className="text-sm text-muted-foreground">{ticket.bounty}</p>
+                    <p className="text-sm text-muted-foreground">{toCurrencyFromCent(ticket.bounty)}</p>
                 </CardFooter>
             </Card>
 

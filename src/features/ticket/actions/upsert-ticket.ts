@@ -1,5 +1,6 @@
 "use server";
 
+import { toCent } from "@/utils/currency";
 import { setCookieByKey } from "@/actions/cookies";
 import { redirect } from "next/navigation";
 import { ticketsPath, ticketPath } from "@/paths";
@@ -32,12 +33,17 @@ export const upsertTicket = async (
       bounty: formData.get("bounty"),
     });
 
+    const dbData = {
+      ...data,
+      bounty: toCent(data.bounty),
+    }
+
     await prisma.ticket.upsert({
       where: {
         id: id || "",
       },
-      update: data,
-      create: data,
+      update: dbData,
+      create: dbData,
     });
   } catch (error) {
     return fromErrorToActionState(error, formData);

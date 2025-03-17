@@ -1,5 +1,6 @@
 "use client";
 
+import { fromCent } from '@/utils/currency'
 import { Form } from '@/components/form/form';
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -52,7 +53,7 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
             name="deadline"
             type="date"
             defaultValue={
-              (actionState.payload?.get("content") as string) ?? ticket?.content
+              (actionState.payload?.get("deadline") as string) ?? ticket?.deadline
             }
           />
           <FieldError actionState={actionState} name="deadline" />
@@ -65,7 +66,7 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
             type="number"
             step=".01"
             defaultValue={
-              (actionState.payload?.get("bounty") as string) ?? ticket?.content
+              (actionState.payload?.get("bounty") as string) ?? (ticket?.bounty ? fromCent(ticket?.bounty) : "")
             }
           />
           <FieldError actionState={actionState} name="bounty" />
