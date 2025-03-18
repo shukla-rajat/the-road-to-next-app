@@ -1,6 +1,7 @@
 "use client";
-
-import { fromCent } from '@/utils/currency'
+ 
+import { DatePicker } from "@/components/date-picker";
+import { fromCent } from '@/utils/currency';
 import { Form } from '@/components/form/form';
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -48,10 +49,17 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
       <div className="flex gap-x-2 mb-1">
         <div className="w-1/2">
           <Label htmlFor="deadline">Deadline</Label>
-          <Input
+          { /*<Input
             id="deadline"
             name="deadline"
             type="date"
+            defaultValue={
+              (actionState.payload?.get("deadline") as string) ?? ticket?.deadline
+            }
+          /> */ }
+          <DatePicker 
+            id="deadline" 
+            name="deadline" 
             defaultValue={
               (actionState.payload?.get("deadline") as string) ?? ticket?.deadline
             }
