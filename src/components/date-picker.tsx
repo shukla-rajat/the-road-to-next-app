@@ -6,9 +6,9 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
 } from "@/components/ui/popover"
 
 type DatePickerProps = {
@@ -17,35 +17,41 @@ type DatePickerProps = {
     defaultValue?: string | undefined;
 }
 
-const DatePicker = ({ id, name, defaultValue } : DatePickerProps) => {
-  const [date, setDate] = useState<Date | undefined>(defaultValue ? new Date(defaultValue) : new Date())
+const DatePicker = ({ id, name, defaultValue }: DatePickerProps) => {
+    const [date, setDate] = useState<Date | undefined>(defaultValue ? new Date(defaultValue) : new Date());
+    const [open, setOpen] = useState(false);
 
-  const formattedStringDate = date ? (
-    format(date, "yyyy-MM-dd")
-  ) : "";
+    const formattedStringDate = date ? (
+        format(date, "yyyy-MM-dd")
+    ) : "";
 
-  return (
-    <Popover>
-      <PopoverTrigger className="w-full" id={id} asChild>
-        <Button
-          variant="outline"
-          className= "justify-start text-left font-normal"
-        >
-          <LucideCalendar className="mr-2 h-4 w-4" />
-          {formattedStringDate}
-          <input type="hidden" name={name} value={formattedStringDate} />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          initialFocus
-        />
-      </PopoverContent>
-    </Popover>
-  )
+    const handleSelect = (selectedDate: Date | undefined) => {
+        setDate(selectedDate);
+        setOpen(false);
+    }
+
+    return (
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger className="w-full" id={id} asChild>
+                <Button
+                    variant="outline"
+                    className="justify-start text-left font-normal"
+                >
+                    <LucideCalendar className="mr-2 h-4 w-4" />
+                    {formattedStringDate}
+                    <input type="hidden" name={name} value={formattedStringDate} />
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={handleSelect}
+                    initialFocus
+                />
+            </PopoverContent>
+        </Popover>
+    )
 }
 
 export { DatePicker };
