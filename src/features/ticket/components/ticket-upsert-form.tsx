@@ -1,15 +1,15 @@
 "use client";
- 
-import { DatePicker } from "@/components/date-picker";
-import { fromCent } from '@/utils/currency';
-import { Form } from '@/components/form/form';
+
+import { DatePicker, ImperativeHandleFromDatePicker } from "@/components/date-picker";
+import { fromCent } from "@/utils/currency";
+import { Form } from "@/components/form/form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { upsertTicket } from "@/features/ticket/actions/upsert-ticket";
 import { Ticket } from "@prisma/client";
 import { SubmitButton } from "@/components/form/submit-button";
-import { useActionState, useEffect } from "react";
+import { useActionState, useRef } from "react";
 import { FieldError } from "@/components/form/field-error";
 import { EMPTY_ACTION_STATE } from "@/components/form/utils/to-action-state";
 
@@ -23,10 +23,11 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
     EMPTY_ACTION_STATE
   );
 
+  const datePickerImperativeHandleRef = useRef<ImperativeHandleFromDatePicker>(null);
+
   const handleSuccess = () => {
-    //TODO reset the date picker
-    console.log("success");
-  }
+    datePickerImperativeHandleRef.current?.reset();
+  };
 
   return (
     <Form action={action} actionState={actionState} onSuccess={handleSuccess}>
@@ -42,25 +43,26 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
       <FieldError actionState={actionState} name="title" />
 
       <Label htmlFor="content">Content</Label>
-          <Textarea
-            id="content"
-            name="content"
-            defaultValue={
-              (actionState.payload?.get("content") as string) ?? ticket?.content
-            }
-          />
-          <FieldError actionState={actionState} name="content" />
+      <Textarea
+        id="content"
+        name="content"
+        defaultValue={
+          (actionState.payload?.get("content") as string) ?? ticket?.content
+        }
+      />
+      <FieldError actionState={actionState} name="content" />
 
       <div className="flex gap-x-2 mb-1">
         <div className="w-1/2">
           <Label htmlFor="deadline">Deadline</Label>
-          <DatePicker 
-            key={actionState.timestamp}
-            id="deadline" 
-            name="deadline" 
+          <DatePicker
+            id="deadline"
+            name="deadline"
             defaultValue={
-              (actionState.payload?.get("deadline") as string) ?? ticket?.deadline
+              (actionState.payload?.get("deadline") as string) ??
+              ticket?.deadline
             }
+            imperativeHandleRef={datePickerImperativeHandleRef}
           />
           <FieldError actionState={actionState} name="deadline" />
         </div>
@@ -72,7 +74,8 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
             type="number"
             step=".01"
             defaultValue={
-              (actionState.payload?.get("bounty") as string) ?? (ticket?.bounty ? fromCent(ticket?.bounty) : "")
+              (actionState.payload?.get("bounty") as string) ??
+              (ticket?.bounty ? fromCent(ticket?.bounty) : "")
             }
           />
           <FieldError actionState={actionState} name="bounty" />
