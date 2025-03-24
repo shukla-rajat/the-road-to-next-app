@@ -1,11 +1,12 @@
 
+import { TicketMoreMenu } from "./ticket-more-menu";
 import { toCurrencyFromCent } from "@/utils/currency";
 import clsx from "clsx";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { ticketPath, ticketEditPath } from "@/paths";
 import Link from "next/link";
 import { TICKET_ICONS } from "../constants";
-import { LucideSquareArrowOutUpRight, LucideTrash, LucidePencil } from "lucide-react";
+import { LucideSquareArrowOutUpRight, LucideTrash, LucidePencil, LucideMoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Ticket } from "@prisma/client";
 import { deleteTicket } from "../actions/delete-ticket";
@@ -15,18 +16,18 @@ type TicketItemProps = {
     isDetail?: boolean;
 };
 
-const TicketItem = async({ ticket, isDetail }: TicketItemProps) => {
+const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
 
     const detailButton = (
         <Button variant="outline" size="icon" asChild>
-            <Link prefetch href={ticketPath(ticket.id)}><LucideSquareArrowOutUpRight className="h-4 w-4"/></Link>    
+            <Link prefetch href={ticketPath(ticket.id)}><LucideSquareArrowOutUpRight className="h-4 w-4" /></Link>
         </Button>
     );
 
     const editButton = (
         <Button variant="outline" size="icon" asChild>
             <Link prefetch href={ticketEditPath(ticket.id)}>
-                <LucidePencil className="h-4 w-4"/>
+                <LucidePencil className="h-4 w-4" />
             </Link>
         </Button>
     )
@@ -38,6 +39,14 @@ const TicketItem = async({ ticket, isDetail }: TicketItemProps) => {
             </Button>
         </form>
     )
+
+    const moreMenu = <TicketMoreMenu ticket={ticket} trigger={
+        <Button variant="outline" size="icon">
+            <LucideMoreVertical className="h-4 w-4" />
+        </Button>
+        } 
+    />
+
     return (
         <div className={clsx("w-full flex gap-x-1", {
             "max-w-[580px]": isDetail,
@@ -51,7 +60,7 @@ const TicketItem = async({ ticket, isDetail }: TicketItemProps) => {
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <span className={clsx("whitespace-break-spaces",{
+                    <span className={clsx("whitespace-break-spaces", {
                         "line-clamp-3": !isDetail,
                     })}>
                         {ticket.content}
@@ -68,6 +77,7 @@ const TicketItem = async({ ticket, isDetail }: TicketItemProps) => {
                     <>
                         {editButton}
                         {deleteButton}
+                        {moreMenu}
                     </>
                 ) : (
                     <>
