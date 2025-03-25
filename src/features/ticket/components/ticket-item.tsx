@@ -8,6 +8,7 @@ import Link from "next/link";
 import { TICKET_ICONS } from "../constants";
 import { LucideSquareArrowOutUpRight, LucideTrash, LucidePencil, LucideMoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import { Ticket } from "@prisma/client";
 import { deleteTicket } from "../actions/delete-ticket";
 
@@ -32,13 +33,24 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
         </Button>
     )
 
-    const deleteButton = (
+    /*const deleteButton = (
         <form action={deleteTicket.bind(null, ticket.id)}>
             <Button variant="outline" size="icon">
                 <LucideTrash className="h-4 w-4" />
             </Button>
         </form>
-    )
+    )*/
+
+    const deleteButton = (
+        <ConfirmDialog 
+            action={deleteTicket.bind(null, ticket.id)}
+            trigger = {
+                <Button variant="outline" size="icon">
+                    <LucideTrash className="h-4 w-4" />
+                </Button>
+            }    
+        />
+    );
 
     const moreMenu = <TicketMoreMenu ticket={ticket} trigger={
         <Button variant="outline" size="icon">
