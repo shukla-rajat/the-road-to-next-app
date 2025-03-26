@@ -1,14 +1,16 @@
 
-import { TicketMoreMenu } from "./ticket-more-menu";
-import { toCurrencyFromCent } from "@/utils/currency";
-import clsx from "clsx";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-import { ticketPath, ticketEditPath } from "@/paths";
-import Link from "next/link";
-import { TICKET_ICONS } from "../constants";
-import { LucideSquareArrowOutUpRight, LucideTrash, LucidePencil, LucideMoreVertical } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Ticket } from "@prisma/client";
+import clsx from "clsx";
+import { LucideMoreVertical,LucidePencil, LucideSquareArrowOutUpRight } from "lucide-react";
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter,CardHeader, CardTitle } from "@/components/ui/card";
+import { ticketEditPath,ticketPath } from "@/paths";
+import { toCurrencyFromCent } from "@/utils/currency";
+
+import { TICKET_ICONS } from "../constants";
+import { TicketMoreMenu } from "./ticket-more-menu";
 
 type TicketItemProps = {
     ticket: Ticket;

@@ -2,6 +2,9 @@
 
 import { Ticket, TicketStatus } from "@prisma/client";
 import { LucideTrash } from "lucide-react";
+import { toast } from "sonner";
+
+import { useConfirmDialog } from "@/components/confirm-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,11 +14,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { TICKET_STATUS_LABELS } from "../constants";
-import { updateTicketStatus } from "../actions/update-ticket-status";
-import { toast } from "sonner";
-import { useConfirmDialog } from "@/components/confirm-dialog";
 import { deleteTicket } from "@/features/ticket/actions/delete-ticket";
+
+import { updateTicketStatus } from "../actions/update-ticket-status";
+import { TICKET_STATUS_LABELS } from "../constants";
 
 type TicketMoreMenuProps = {
   ticket: Ticket;

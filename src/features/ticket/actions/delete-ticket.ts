@@ -1,10 +1,11 @@
 "use server";
-import { setCookieByKey } from '@/actions/cookies';
 import { revalidatePath } from 'next/cache';
+import { redirect } from "next/navigation";
+
+import { setCookieByKey } from '@/actions/cookies';
+import { fromErrorToActionState } from "@/components/form/utils/to-action-state"; 
 import { prisma } from "@/lib/prisma";
 import { ticketsPath } from "@/paths";
-import { redirect } from "next/navigation";
-import { fromErrorToActionState } from "@/components/form/utils/to-action-state"; 
 
 export const deleteTicket = async (id: string) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
