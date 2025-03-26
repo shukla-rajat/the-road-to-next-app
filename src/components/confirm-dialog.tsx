@@ -1,8 +1,7 @@
 
-import { ActionState } from "./form/utils/to-action-state";
+import { SubmitButton } from "./form/submit-button";
 import {
     AlertDialog,
-    AlertDialogTrigger,
     AlertDialogContent,
     AlertDialogHeader,
     AlertDialogTitle,
@@ -11,26 +10,34 @@ import {
     AlertDialogCancel,
     AlertDialogAction
 } from "./ui/alert-dialog";
-import { Button } from "./ui/button";
-import { cloneElement, useState } from "react";
+import { cloneElement, useState, useActionState } from "react";
+import { Form } from "@/components/form/form";
+import { ActionState, EMPTY_ACTION_STATE } from "./form/utils/to-action-state";
 
 type UseConfirmDialogProps = {
     title?: string;
     description?: string;
-    action: (payload: FormData) => void;
+    action: () => Promise<ActionState>;
     trigger: React.ReactElement;
 }
 
-const useConfirmDialog = ({ 
-    title = "Are you absolutely sure ?", 
-    description = "This action cannot be undone. Make sure you understand the consequences. ", 
-    action, 
+const useConfirmDialog = ({
+    title = "Are you absolutely sure ?",
+    description = "This action cannot be undone. Make sure you understand the consequences. ",
+    action,
     trigger }: UseConfirmDialogProps) => {
-     const [isOpen, setIsOpen] = useState(false);   
+    const [isOpen, setIsOpen] = useState(false);
 
-    const dialogTrigger = cloneElement(trigger, { 
+    const dialogTrigger = cloneElement(trigger, {
         onClick: () => setIsOpen((state) => !state),
     })
+
+    const [actionState, formAction] = useActionState(action, EMPTY_ACTION_STATE);
+
+    const handleSuccess = () => {
+        setIsOpen(false);
+    };
+
     const dialog = (
         <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
             <AlertDialogContent>
@@ -41,16 +48,16 @@ const useConfirmDialog = ({
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction asChild>
-                        <form action={action}>
-                            <Button type="submit">Confirm</Button>
-                        </form>
+                        <Form action={formAction} actionState={actionState} onSuccess={handleSuccess}>
+                            <SubmitButton label="Confirm" />
+                        </Form>
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
     );
 
-    return [ dialogTrigger, dialog ];
+    return [dialogTrigger, dialog];
 }
 
 export { useConfirmDialog }
