@@ -1,12 +1,32 @@
 import { LucideKanban } from "lucide-react";
 import Link from "next/link";
-
 import { buttonVariants } from "@/components/ui/button";
-import { homePath, ticketsPath } from "@/paths";
-
+import { homePath, ticketsPath, signUpPath, signInPath } from "@/paths";
 import { ThemeSwitcher } from "./theme/theme-switcher";
 
 const Header = () => {
+    const navItems = (
+        <>
+            <Link
+                className={buttonVariants({ variant: "default" })}
+                href={ticketsPath()}
+            >
+                Tickets
+            </Link>
+            <Link
+                href = {signUpPath()}
+                className={buttonVariants({ variant: "outline"})}
+            >
+                Sign Up
+            </Link>
+            <Link
+                href = {signInPath()}
+                className={buttonVariants({ variant: "outline"})}
+            >
+                Sign In
+            </Link>
+        </>
+    );
     return (
         <>
             <nav
@@ -28,12 +48,7 @@ const Header = () => {
             </div>
             <div className="flex align-items gap-x-2">
                 <ThemeSwitcher/>
-                <Link
-                className={buttonVariants({ variant: "default" })}
-                href={ticketsPath()}
-                >
-                Tickets
-                </Link>
+                {navItems}      
             </div>
             </nav>
         </>
