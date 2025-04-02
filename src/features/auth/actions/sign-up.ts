@@ -9,6 +9,7 @@ import { prisma } from "@/lib/prisma";
 import { lucia } from '@/lib/lucia';
 import { ticketsPath } from "@/paths";
 import { redirect } from "next/navigation";
+import { Prisma } from "@prisma/client";
 
 const signUpSchema = z.object ({
     username: z
@@ -30,7 +31,7 @@ const signUpSchema = z.object ({
     }
 });
 
-export const signUp = async (_actionState: ActionState, formData: FormData) => {
+export const  signUp = async (_actionState: ActionState, formData: FormData) => {
     try {
         const { username, email, password } = signUpSchema.parse(
             Object.fromEntries(formData)
@@ -52,6 +53,16 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
         (await cookies()).set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
     }
     catch (error) {
+        if (
+            error instanceof Prisma.PrismaClientKnownRequestError && 
+            error.code === "P2002"
+        ) {
+            return toActionState(
+                "ERROR",
+                "Either email or username is already in use",
+                formData
+            )
+        }
         return fromErrorToActionState(error, formData);
     }
 
