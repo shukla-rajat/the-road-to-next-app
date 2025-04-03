@@ -1,15 +1,16 @@
 
 "use server";
 
-import { toActionState } from "@/components/form/utils/to-action-state";
 import { verify } from "@node-rs/argon2";
-import { ActionState, fromErrorToActionState } from "@/components/form/utils/to-action-state";
-import { z } from "zod";
-import { redirect } from "next/navigation";
-import { ticketsPath } from "@/paths";
-import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { z } from "zod";
+
+import { toActionState } from "@/components/form/utils/to-action-state";
+import { ActionState, fromErrorToActionState } from "@/components/form/utils/to-action-state";
 import { lucia } from "@/lib/lucia";
+import { prisma } from "@/lib/prisma";
+import { ticketsPath } from "@/paths";
 
 const signUpSchema = z.object ({
     email: z.string().min(1, { message: "Is required"}).max(191).email(),
