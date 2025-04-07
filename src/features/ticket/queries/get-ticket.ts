@@ -8,5 +8,12 @@ export const getTicket = cache(async (id : string) => {
         where: {
             id,
         },
+        include: {
+            user: {
+                select: {
+                    username: true,
+                } 
+            }
+        }
     });
 });
