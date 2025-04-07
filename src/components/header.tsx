@@ -5,11 +5,11 @@ import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
 import { signOut } from "@/features/auth/actions/sign-out"; 
+import { useAuth } from "@/features/auth/hooks/use-auth";
 import { homePath, signInPath,signUpPath, ticketsPath } from "@/paths";
 
 import { SubmitButton } from "./form/submit-button";
 import { ThemeSwitcher } from "./theme/theme-switcher";
-import { useAuth } from "@/features/auth/hooks/use-auth";
 
 const Header = () => {
 const { user, isFetched } = useAuth();

@@ -1,8 +1,9 @@
 
-import { useState, useEffect} from "react";
-import { getAuth } from "@/features/auth/queries/get-auth";
-import { usePathname } from "next/navigation";
 import { User as AuthUser } from "lucia";
+import { usePathname } from "next/navigation";
+import { useEffect,useState} from "react";
+
+import { getAuth } from "@/features/auth/queries/get-auth";
 
 const useAuth = () => {
     const [ user, setUser ] = useState<AuthUser | null>(null);
