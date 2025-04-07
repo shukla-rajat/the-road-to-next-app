@@ -10,10 +10,10 @@ import {
   fromErrorToActionState,
   toActionState
 } from "@/components/form/utils/to-action-state";
+import { getAuth } from "@/features/auth/queries/get-auth";
 import { prisma } from "@/lib/prisma";
 import { signInPath, ticketPath,ticketsPath } from "@/paths";
 import { toCent } from "@/utils/currency";
-import { getAuth } from "@/features/auth/queries/get-auth";
 
 const upsertTicketSchema = z.object({
   title: z.string().min(1).max(191),
