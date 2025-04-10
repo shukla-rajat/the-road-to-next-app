@@ -12,7 +12,7 @@ import { SubmitButton } from "./form/submit-button";
 import { ThemeSwitcher } from "./theme/theme-switcher";
 
 const Header = () => {
-const { user, isFetched } = useAuth();
+    const { user, isFetched } = useAuth();
 
     if (!isFetched) {
         return null;
