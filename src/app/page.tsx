@@ -7,16 +7,16 @@ import { TicketList } from "@/features/ticket/components/ticket-list";
 import { SearchParams } from "@/features/ticket/search-params";
 
 type HomePageProps = {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }
 
-const HomePage = ({ searchParams }: HomePageProps) => {
+const HomePage = async ({ searchParams }: HomePageProps) => {
   return (
   <div className="flex-1 flex flex-col gap-y-8">
     <Heading title="All Tickets" description="Tickets by everyone at one place" />
     
     <Suspense fallback={<Spinner />}>
-      <TicketList searchParams = {searchParams} />
+      <TicketList searchParams = {await searchParams} />
     </Suspense>
   </div>
   );
