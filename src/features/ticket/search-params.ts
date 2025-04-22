@@ -18,7 +18,6 @@ export const sortOptions = {
 
 export const searchParamsCache = createSearchParamsCache({
     search: searchParser,
-    //sort: sortParser,
     ...sortParser,
 });
 
