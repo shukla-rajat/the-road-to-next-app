@@ -1,12 +1,11 @@
 "use client";
 
-import { useQueryStates, useQueryState } from "nuqs";
+import { useQueryState,useQueryStates } from "nuqs";
+import {useEffect,useRef} from "react";
 
 import { Pagination } from "@/components/pagination";
 
 import { paginationOptions, paginationParser, searchParser } from "../search-params";
-
-import {useRef, useEffect} from "react";
 
 type TicketPaginationProps = {
   paginatedTicketMetadata: {
