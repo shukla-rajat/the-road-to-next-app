@@ -1,3 +1,4 @@
+"use server";
 
 import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from "@/features/auth/utils/is-owner";
