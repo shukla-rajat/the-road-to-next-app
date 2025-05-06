@@ -1,4 +1,7 @@
+"use client";
+
 import { CardCompact } from "@/components/card-compact";
+import { Button } from "@/components/ui/button";
 
 import { CommentWithMetadata } from "../types";
 import { CommentCreateForm } from "./comment-create-form";
@@ -10,6 +13,10 @@ type CommentsProps = {
 };
 
 const Comments =  ({ ticketId, comments = [] }: CommentsProps) => {
+  const handleMore = () => {
+
+  };
+
   return (
     <>
       <CardCompact
@@ -29,6 +36,9 @@ const Comments =  ({ ticketId, comments = [] }: CommentsProps) => {
             ]}
           />
         ))}
+      </div>
+      <div className="flex flex-col justify-center ml-8">
+        <Button variant="ghost" onClick={handleMore}>More</Button>
       </div>
     </>
   );
