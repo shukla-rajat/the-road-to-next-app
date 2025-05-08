@@ -15,7 +15,14 @@ type CommentsProps = {
   ticketId: string;
   paginatedComments: {
     list: CommentWithMetadata[];
-    metadata: { count: number; hasNextPage: boolean; cursor?: string };
+    metadata: {
+      count: number;
+      hasNextPage: boolean;
+      cursor?: {
+        id: string;
+        createdAt: number;
+      };
+    };
   };
 };
 
@@ -39,7 +46,7 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
 
   const handleCreateComment = (comment: CommentWithMetadata | undefined) => {
     if (!comment) return;
-    
+
     setComments((prevComments) => [comment, ...prevComments]);
   };
 
