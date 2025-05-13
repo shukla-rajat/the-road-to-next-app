@@ -18,7 +18,7 @@ type CommentsProps = {
 };
 
 const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
       queryKey: ["comments", ticketId],
       queryFn: ({ pageParam }) => getComments(ticketId, pageParam),
@@ -41,11 +41,11 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
   const handleMore = () => fetchNextPage();
 
   const handleDeleteComment = (id: string) => {
-    // TODO
+    refetch();
   };
 
   const handleCreateComment = (comment: CommentWithMetadata | undefined) => {
-    // TODO
+    refetch();
   };
 
   return (
