@@ -1,6 +1,6 @@
 "use client";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 
 import { CardCompact } from "@/components/card-compact";
 import { PaginatedData } from "@/components/pagination/types";
@@ -18,9 +18,10 @@ type CommentsProps = {
 };
 
 const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
+  const queryKey = ["comments", ticketId];
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
-      queryKey: ["comments", ticketId],
+      queryKey,
       queryFn: ({ pageParam }) => getComments(ticketId, pageParam),
       initialPageParam: undefined as string | undefined,
       getNextPageParam: (lastPage) =>
@@ -40,12 +41,14 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
 
   const handleMore = () => fetchNextPage();
 
-  const handleDeleteComment = (id: string) => {
-    refetch();
+  const queryClient = useQueryClient();
+
+  const handleDeleteComment = () => {
+    queryClient.invalidateQueries({ queryKey });
   };
 
-  const handleCreateComment = (comment: CommentWithMetadata | undefined) => {
-    refetch();
+  const handleCreateComment = () => {
+    queryClient.invalidateQueries({ queryKey });
   };
 
   return (
