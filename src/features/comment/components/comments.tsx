@@ -1,6 +1,8 @@
 "use client";
 
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 import { CardCompact } from "@/components/card-compact";
 import { PaginatedData } from "@/components/pagination/types";
@@ -39,8 +41,6 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
 
   const comments = data.pages.flatMap((page) => page.list);
 
-  const handleMore = () => fetchNextPage();
-
   const queryClient = useQueryClient();
 
   const handleDeleteComment = () => {
@@ -50,6 +50,14 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
   const handleCreateComment = () => {
     queryClient.invalidateQueries({ queryKey });
   };
+
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if(inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [ fetchNextPage, hasNextPage, inView, isFetchingNextPage]);
 
   return (
     <>
@@ -83,15 +91,9 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
         ))}
       </div>
 
-      <div className="flex flex-col justify-center ml-8">
-        {hasNextPage && (
-          <Button
-            variant="ghost"
-            onClick={handleMore}
-            disabled={isFetchingNextPage}
-          >
-            More
-          </Button>
+      <div ref={ref}>
+        {!hasNextPage && (
+          <p className="text-right text-xs italic">No more comments.</p>
         )}
       </div>
     </>
