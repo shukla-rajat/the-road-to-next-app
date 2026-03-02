@@ -26,7 +26,7 @@ const PasswordForgotForm = () => {
             />
             <FieldError actionState={actionState} name="email" />
 
-            <SubmitButton label="Sign Up" />
+            <SubmitButton label="Send Email" />
         </Form>
     )
 

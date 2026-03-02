@@ -10,14 +10,15 @@ import {
 import { prisma } from "@/lib/prisma";
 
 const passwordForgotSchema = z.object({
-  email: z.string().min(1, { message: "Is required" }).max(191).email()
+  email: z.string().min(1, { message: "Is required" }).max(191).email(),
 });
 
-export const passwordForgot = async (_actionState: ActionState, formData: FormData) => {
+export const passwordForgot = async (
+  _actionState: ActionState,
+  formData: FormData,
+) => {
   try {
-    const { email } = passwordForgotSchema.parse(
-      Object.fromEntries(formData)
-    );
+    const { email } = passwordForgotSchema.parse(Object.fromEntries(formData));
 
     const user = await prisma.user.findUnique({
       where: { email },
@@ -31,5 +32,5 @@ export const passwordForgot = async (_actionState: ActionState, formData: FormDa
     return fromErrorToActionState(error, formData);
   }
 
-  return toActionState("SUCCESS", "check your email for a reset.")
+  return toActionState("SUCCESS", "check your email for a reset.");
 };
