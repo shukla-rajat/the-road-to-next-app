@@ -13,12 +13,12 @@ const RedirectToast = () => {
         const showCookieToast = async () => {
             const message = await getCookieByKey("toast");
 
-            if(message) {
+            if (message) {
                 toast.success(message);
                 deleteCookieByKey("toast");
             }
         }
-        
+
         showCookieToast();
     }, [pathname]);
 
