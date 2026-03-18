@@ -10,7 +10,8 @@
     "lint-fix": "next lint --fix",
     "type": "tsc --noEmit",
     "postinstall": "prisma generate",
-    "prisma-seed": "tsx prisma/seed.ts"
+    "prisma-seed": "tsx prisma/seed.ts",
+    "email": "email dev --dir src/emails"
   },
   "dependencies": {
     "@node-rs/argon2": "^2.0.0",
@@ -34,7 +35,7 @@
     "date-fns": "^3.6.0",
     "fastest-levenshtein": "^1.0.16",
     "lucide-react": "^0.454.0",
-    "next": "^15.5.9",
+    "next": "^16.1.7",
     "next-themes": "^0.4.3",
     "nuqs": "^2.1.1",
     "react": "19.0.0-rc-02c0e824-20241028",
@@ -47,6 +48,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@react-email/preview-server": "^5.2.10",
     "@types/big.js": "^6.2.2",
     "@types/node": "^20",
     "@types/react": "^18",
