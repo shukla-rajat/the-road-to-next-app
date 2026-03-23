@@ -1,5 +1,6 @@
-import { prisma } from "@/lib/prisma";
 import { hash } from "@node-rs/argon2";
+
+import { prisma } from "@/lib/prisma";
 
 const users = [
   {
