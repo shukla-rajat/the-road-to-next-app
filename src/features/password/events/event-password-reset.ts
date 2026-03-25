@@ -7,13 +7,13 @@ import { generatePasswordResetLink } from "../utils/generate-password-reset-link
 export type PasswordResetEventArgs = {
   data: {
     userId: string;
-  }
-}
+  };
+};
 
 export const passwordResetFunction = inngest.createFunction(
-  { 
+  {
     id: "password-reset",
-    triggers: [{ event: "app/password.password-reset" }] // Trigger is now inside the configuration object
+    triggers: [{ event: "app/password.password-reset" }], // Trigger is now inside the configuration object
   },
   async ({ event }) => {
     const { userId } = event.data;
@@ -27,9 +27,13 @@ export const passwordResetFunction = inngest.createFunction(
     const result = await sendEmailPasswordReset(
       user.username,
       user.email,
-      passwordResetLink
+      passwordResetLink,
     );
 
+    if (result.error) {
+      throw new Error(`${result.error.name}: ${result.error.message}`);
+    }
+
     return { event, body: result };
-  }
+  },
 );
