@@ -4,9 +4,17 @@ import { prisma } from "@/lib/prisma";
 import { sendEmailPasswordReset } from "../emails/send-email-password-reset";
 import { generatePasswordResetLink } from "../utils/generate-password-reset-link";
 
+export type PasswordResetEventArgs = {
+  data: {
+    userId: string;
+  }
+}
+
 export const passwordResetFunction = inngest.createFunction(
-  { id: "send-password-reset" },
-  { event: "app/password.password-reset" },
+  { 
+    id: "password-reset",
+    triggers: [{ event: "app/password.password-reset" }] // Trigger is now inside the configuration object
+  },
   async ({ event }) => {
     const { userId } = event.data;
 
@@ -19,9 +27,9 @@ export const passwordResetFunction = inngest.createFunction(
     const result = await sendEmailPasswordReset(
       user.username,
       user.email,
-      passwordResetLink,
+      passwordResetLink
     );
 
     return { event, body: result };
-  },
+  }
 );
