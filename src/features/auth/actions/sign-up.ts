@@ -15,6 +15,7 @@ import { prisma } from "@/lib/prisma";
 import { ticketsPath } from "@/paths";
 import { generateRandomToken } from "@/utils/crypto";
 
+import { generateEmailVerificationCode } from "../utils/generate-email-verification-code";
 import { setSessionCookie } from "../utils/session-cookie";
 
 const signUpSchema = z
@@ -25,7 +26,7 @@ const signUpSchema = z
       .max(191)
       .refine(
         (value) => !value.includes(" "),
-        "Username cannot contain spaces"
+        "Username cannot contain spaces",
       ),
     email: z.string().min(1, { message: "Is required" }).max(191).email(),
     password: z.string().min(6).max(191),
@@ -44,7 +45,7 @@ const signUpSchema = z
 export const signUp = async (_actionState: ActionState, formData: FormData) => {
   try {
     const { username, email, password } = signUpSchema.parse(
-      Object.fromEntries(formData)
+      Object.fromEntries(formData),
     );
 
     const passwordHash = await hashPassword(password);
@@ -56,6 +57,12 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
         passwordHash,
       },
     });
+
+    const verificationCode = await generateEmailVerificationCode(
+      user.id,
+      email,
+    );
+    console.log(verificationCode);
 
     const sessionToken = generateRandomToken();
     const session = await createSession(sessionToken, user.id);
@@ -69,7 +76,7 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
       return toActionState(
         "ERROR",
         "Either email or username is already in use",
-        formData
+        formData,
       );
     }
 
