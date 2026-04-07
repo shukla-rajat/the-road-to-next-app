@@ -13,6 +13,7 @@ import { prisma } from "@/lib/prisma";
 import { ticketsPath } from "@/paths";
 import { generateRandomToken } from "@/utils/crypto";
 
+import { getAuthOrRedirect } from "../queries/get-auth-or-redirect";
 import { setSessionCookie } from "../utils/session-cookie";
 
 const emailVerificationSchema = z.object({
@@ -23,14 +24,34 @@ export const emailVerification = async (
   _actionState: ActionState,
   formData: FormData,
 ) => {
-  try {
-    const { code } = emailVerificationSchema.parse(Object.fromEntries(formData));
+  const { user } = await getAuthOrRedirect();
 
-    /*const user = await prisma.emailVerificationToken.findUnique({
-      where: { code },
+  try {
+    const { code } = emailVerificationSchema.parse(
+      Object.fromEntries(formData),
+    );
+
+    //TODO implement email verification logic
+    await prisma.session.deleteMany({
+      where: {
+        userId: user.id,
+      },
     });
 
-    if (!user) {
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        emailVerified: true,
+      },
+    });
+    const emailVerificationToken =
+      await prisma.emailVerificationToken.findFirst({
+        where: { userId: user.id },
+      });
+
+    /*if (!user) {
       return toActionState("ERROR", "Incorrect code", formData);
     }*/
     const sessionToken = generateRandomToken();
