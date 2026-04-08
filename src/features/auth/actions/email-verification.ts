@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
+import { setCookieByKey } from "@/actions/cookies";
 import {
   ActionState,
   fromErrorToActionState,
@@ -15,6 +16,7 @@ import { generateRandomToken } from "@/utils/crypto";
 
 import { getAuthOrRedirect } from "../queries/get-auth-or-redirect";
 import { setSessionCookie } from "../utils/session-cookie";
+import { validateEmailVerificationCode } from "../utils/validate-email-verification-code";
 
 const emailVerificationSchema = z.object({
   code: z.string().length(8),
@@ -24,14 +26,21 @@ export const emailVerification = async (
   _actionState: ActionState,
   formData: FormData,
 ) => {
-  const { user } = await getAuthOrRedirect();
+  const { user } = await getAuthOrRedirect({
+    checkEmailVerified: false,
+  });
 
   try {
     const { code } = emailVerificationSchema.parse(
       Object.fromEntries(formData),
     );
 
-    //TODO implement email verification logic
+    const validCode = await validateEmailVerificationCode(user.id,user.email,code);
+
+    if(!validCode){
+      return toActionState("ERROR","Invalid or expired code");
+    }
+
     await prisma.session.deleteMany({
       where: {
         userId: user.id,
@@ -46,14 +55,7 @@ export const emailVerification = async (
         emailVerified: true,
       },
     });
-    const emailVerificationToken =
-      await prisma.emailVerificationToken.findFirst({
-        where: { userId: user.id },
-      });
 
-    /*if (!user) {
-      return toActionState("ERROR", "Incorrect code", formData);
-    }*/
     const sessionToken = generateRandomToken();
     const session = await createSession(sessionToken, user.id);
 
@@ -62,5 +64,6 @@ export const emailVerification = async (
     return fromErrorToActionState(error, formData);
   }
 
+  await setCookieByKey("toast","Email verified");
   redirect(ticketsPath());
 };
