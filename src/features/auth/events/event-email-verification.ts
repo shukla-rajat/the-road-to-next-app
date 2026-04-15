@@ -26,7 +26,6 @@ export const emailVerificationEvent = inngest.createFunction(
       user.email,
     );
 
-    console.log(verificationCode);
     const result = await sendEmailVerification(
       user.username,
       user.email,
