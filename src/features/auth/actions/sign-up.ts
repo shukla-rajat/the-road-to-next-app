@@ -16,9 +16,9 @@ import { prisma } from "@/lib/prisma";
 import { ticketsPath } from "@/paths";
 import { generateRandomToken } from "@/utils/crypto";
 
-import { setSessionCookie } from "../utils/session-cookie";
-import { generateEmailVerificationCode } from "../utils/generate-email-verification-code";
 import { sendEmailVerification } from "../emails/send-email-verification";
+import { generateEmailVerificationCode } from "../utils/generate-email-verification-code";
+import { setSessionCookie } from "../utils/session-cookie";
 
 const signUpSchema = z
   .object({
@@ -64,7 +64,16 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
       user.id,
       email,
     );
-    await sendEmailVerification(username, email, verificationCode);
+    const result = await sendEmailVerification(
+      user.username,
+      user.email,
+      verificationCode,
+    );
+
+    if (result.error) {
+      throw new Error(`${result.error.name}: ${result.error.message}`);
+    }
+
     console.log(verificationCode);
 
     /*await inngest.send({
