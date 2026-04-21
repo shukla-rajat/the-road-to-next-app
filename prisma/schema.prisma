@@ -29,15 +29,15 @@ model Membership {
 }
 
 model User {
-  id                  String               @id @default(cuid())
-  username            String               @unique
-  email               String               @unique
-  passwordHash        String
-  emailVerified       Boolean              @default(false)
-  sessions            Session[]
-  tickets             Ticket[]
-  comments            Comment[]
-  passwordResetTokens PasswordResetToken[]
+  id                      String                   @id @default(cuid())
+  username                String                   @unique
+  email                   String                   @unique
+  passwordHash            String
+  emailVerified           Boolean                  @default(false)
+  sessions                Session[]
+  tickets                 Ticket[]
+  comments                Comment[]
+  passwordResetTokens     PasswordResetToken[]
   emailVerificationTokens EmailVerificationToken[]
   memberships             Membership[]
 }
@@ -81,7 +81,7 @@ model Comment {
 }
 
 model EmailVerificationToken {
-  id        String  @id @default(cuid())
+  id        String   @id @default(cuid())
   code      String
   expiresAt DateTime
   email     String
@@ -90,6 +90,7 @@ model EmailVerificationToken {
 
   @@index([userId])
 }
+
 model PasswordResetToken {
   tokenHash String   @unique
   expiresAt DateTime
