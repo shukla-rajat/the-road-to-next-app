@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
 
 const OrganizationList = async () => {
@@ -7,7 +9,8 @@ const OrganizationList = async () => {
     <div>
       {organizations.map((organization) => (
         <div key={organization.id}>
-          <div>{organization.name}</div>
+          <div>Name: {organization.name}</div>
+          <div>Joined At: {format(organization.membershipByUser.joinedAt,"yyyy-MM-dd, HH:mm")}</div>
         </div>
       ))}
     </div>
