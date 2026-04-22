@@ -11,9 +11,11 @@ const OrganizationList = async () => {
         <div key={organization.id}>
           <div>Name: {organization.name}</div>
           <div>Joined At: {format(organization.membershipByUser.joinedAt,"yyyy-MM-dd, HH:mm")}</div>
+          <div>Members: {organization._count.memberships}</div>
         </div>
       ))}
     </div>
+    
   );
 };
 
