@@ -6,23 +6,27 @@ import { emailVerificationPath, onBoardingPath, signInPath } from "@/paths";
 
 type GetAuthOrRedirectOptions = {
   checkEmailVerified?: boolean;
+  checkOrganization?: boolean;
 };
 
 export const getAuthOrRedirect = async (options?: GetAuthOrRedirectOptions) => {
-  const { checkEmailVerified = true } = options ?? {};
+  const { checkEmailVerified = true, checkOrganization = true } = options ?? {};
   const auth = await getAuth();
 
   if (!auth.user) {
     redirect(signInPath());
   }
 
-  if (checkEmailVerified && !auth.user.emailVerified) {
+  if (checkEmailVerified) {
     redirect(emailVerificationPath());
   }
 
-  const organizations = await getOrganizationsByUser();
-  if(!organizations.length) {
-    redirect(onBoardingPath());
+  if(checkOrganization) {
+    const organizations = await getOrganizationsByUser();
+
+    if (!organizations.length) {
+      redirect(onBoardingPath());
+    }
   }
 
   return auth;
