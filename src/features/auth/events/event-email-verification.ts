@@ -1,7 +1,7 @@
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 
-import { sendEmailVerification } from "../emails/send-email-verification";
+//import { sendEmailVerification } from "../emails/send-email-verification";
 import { generateEmailVerificationCode } from "../utils/generate-email-verification-code";
 
 export type EmailVerificationEventArgs = {
@@ -26,7 +26,8 @@ export const emailVerificationEvent = inngest.createFunction(
       user.email,
     );
 
-    const result = await sendEmailVerification(
+    console.log("email verification: ", verificationCode);
+    /*const result = await sendEmailVerification(
       user.username,
       user.email,
       verificationCode,
@@ -36,6 +37,7 @@ export const emailVerificationEvent = inngest.createFunction(
       throw new Error(`${result.error.name}: ${result.error.message}`);
     }
 
-    return { event, body: result };
+    return { event, body: result };*/
+    return { event, body: null };
   },
 );

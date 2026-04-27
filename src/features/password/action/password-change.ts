@@ -45,9 +45,6 @@ export const passwordChange = async (
       return toActionState("ERROR", "incorrect password");
     }
 
-    //const passwordResetLink = await generatePasswordResetLink (auth.user.id);
-    //sendEmailPasswordReset(auth.user.username, auth.user.email, passwordResetLink);
-    //console.log(passwordResetLink);
     await inngest.send({
       name: "app/password.password-reset",
       data: { userId: auth.user.id },

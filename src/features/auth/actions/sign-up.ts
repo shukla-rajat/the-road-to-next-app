@@ -74,15 +74,13 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
       throw new Error(`${result.error.name}: ${result.error.message}`);
     }
 
-    console.log(verificationCode);
-
-    /*await inngest.send({
+    await inngest.send({
       name: "app/auth.sign-up",
       data: {
-        userId: user.id
-      }
-    })*/
-    
+        userId: user.id,
+      },
+    });
+
     const sessionToken = generateRandomToken();
     const session = await createSession(sessionToken, user.id);
 

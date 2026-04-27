@@ -5,10 +5,11 @@ export const sendEmailVerification = async (
   email: string,
   verificationCode: string,
 ) => {
-    return await resend.emails.send({
-        from: "[EMAIL_ADDRESS]",
-        to:email,
-        subject: "Email Verification from TicketBounty",
-        react: <EmailVerification toName={username} code={verificationCode}/>
-    })
+
+  return await resend.emails.send({
+    from: "[EMAIL_ADDRESS]",
+    to: email,
+    subject: "Email Verification from TicketBounty",
+    react: <EmailVerification toName={username} code={verificationCode} />
+  })
 };

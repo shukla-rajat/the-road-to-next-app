@@ -5,6 +5,7 @@ export const sendEmailPasswordReset = async (
   email: string,
   passwordResetLink: string,
 ) => {
+
   return await resend.emails.send({
     from: "[EMAIL_ADDRESS]",
     to: email,

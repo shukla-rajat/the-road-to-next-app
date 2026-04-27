@@ -1,6 +1,7 @@
 import { hash } from "@node-rs/argon2";
+import { PrismaClient } from "@prisma/client";
 
-import { prisma } from "@/lib/prisma";
+const prisma = new PrismaClient();
 
 const users = [
   {
@@ -10,30 +11,30 @@ const users = [
   },
   {
     username: "user",
-    //use your own email here
-    email: "hello@abc.com",
+    // use your own email here
+    email: "hello@road-to-next.com",
     emailVerified: false,
-  }
-]
+  },
+];
 
 const tickets = [
   {
     title: "Ticket 1",
-    content: "This is the first ticket from the database.",
+    content: "First ticket from DB.",
     status: "DONE" as const,
     deadline: new Date().toISOString().split("T")[0],
     bounty: 499,
   },
   {
     title: "Ticket 2",
-    content: "This is the second ticket from the database.",
+    content: "Second ticket from DB.",
     status: "OPEN" as const,
     deadline: new Date().toISOString().split("T")[0],
     bounty: 399,
   },
   {
     title: "Ticket 3",
-    content: "This is the third ticket from the database.",
+    content: "Third ticket from DB.",
     status: "IN_PROGRESS" as const,
     deadline: new Date().toISOString().split("T")[0],
     bounty: 599,
@@ -41,9 +42,9 @@ const tickets = [
 ];
 
 const comments = [
-  { content: "First comment from DB"},
-  { content: "Second comment from DB"},
-  { content: "Third comment from DB"},
+  { content: "First comment from DB." },
+  { content: "Second comment from DB." },
+  { content: "Third comment from DB." },
 ];
 
 const seed = async () => {
@@ -96,7 +97,7 @@ const seed = async () => {
   });
 
   const t1 = performance.now();
-  console.log(`DB seed: Finished (${t1 - t0}ms)`);
+  console.log(`DB Seed: Finished (${t1 - t0}ms)`);
 };
 
 seed();

@@ -28,9 +28,7 @@ export const passwordForgot = async (
     if (!user) {
       return toActionState("ERROR", "Incorrect email", formData);
     }
-    //const passwordResetLink = await generatePasswordResetLink (user.id);
-    //sendEmailPasswordReset(user.username, user.email, passwordResetLink);
-    //console.log(passwordResetLink); 
+
     await inngest.send({
       name: "app/password.password-reset",
       data: { userId: user.id },

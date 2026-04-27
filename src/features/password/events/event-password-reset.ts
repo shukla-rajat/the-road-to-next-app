@@ -1,7 +1,7 @@
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 
-import { sendEmailPasswordReset } from "../emails/send-email-password-reset";
+//import { sendEmailPasswordReset } from "../emails/send-email-password-reset";
 import { generatePasswordResetLink } from "../utils/generate-password-reset-link";
 
 export type PasswordResetEventArgs = {
@@ -24,7 +24,8 @@ export const passwordResetFunction = inngest.createFunction(
 
     const passwordResetLink = await generatePasswordResetLink(user.id);
 
-    const result = await sendEmailPasswordReset(
+    console.log("password reset: ", passwordResetLink);
+    /*const result = await sendEmailPasswordReset(
       user.username,
       user.email,
       passwordResetLink,
@@ -34,6 +35,7 @@ export const passwordResetFunction = inngest.createFunction(
       throw new Error(`${result.error.name}: ${result.error.message}`);
     }
 
-    return { event, body: result };
+    return { event, body: result };*/
+    return { event, body: null };
   },
 );
