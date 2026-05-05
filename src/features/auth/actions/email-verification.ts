@@ -32,9 +32,9 @@ export const emailVerification = async (
   });
 
   try {
-    const { code } = emailVerificationSchema.parse(
-      Object.fromEntries(formData),
-    );
+    const { code } = emailVerificationSchema.parse({
+      code: formData.get("code")
+    });
 
     const validCode = await validateEmailVerificationCode(user.id,user.email,code);
 

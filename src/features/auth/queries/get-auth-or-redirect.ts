@@ -17,11 +17,11 @@ export const getAuthOrRedirect = async (options?: GetAuthOrRedirectOptions) => {
     redirect(signInPath());
   }
 
-  if (checkEmailVerified) {
+  if (checkEmailVerified && !auth.user.emailVerified) {
     redirect(emailVerificationPath());
   }
 
-  if(checkOrganization) {
+  if (checkOrganization) {
     const organizations = await getOrganizationsByUser();
 
     if (!organizations.length) {
