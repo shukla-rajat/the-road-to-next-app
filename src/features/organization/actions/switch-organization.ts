@@ -13,17 +13,21 @@ import { organizationPath } from "@/paths";
 import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
 
 export const switchOrganization = async (organizationId: string) => {
-  const organizations = await getOrganizationsByUser();
-  const canSwitch = organizations.some(
-    (organization) => organization.id === organizationId
-  );
+  const { user } = await getAuthOrRedirect({
+    checkActiveOrganization: false,
+  });
 
-  if(!canSwitch){
-    return toActionState("ERROR", "Not a member of this organization");
-  }
-
-  const { user } = await getAuthOrRedirect();
   try {
+    const organizations = await getOrganizationsByUser();
+
+    const canSwitch = organizations.some(
+        (organization) => organization.id === organizationId
+    );
+
+    if(!canSwitch){
+        return toActionState("ERROR", "Not a member of this organization");
+    }
+
     await prisma.membership.updateMany({
         where: {
             userId: user.id,
