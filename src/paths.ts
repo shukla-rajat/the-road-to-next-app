@@ -12,7 +12,7 @@ export const emailVerificationPath = () => "/email-verification";
 export const onBoardingPath = () => "/onboarding";
 export const selectActiveOrganizationPath = () => "/onboarding/select-active-organization";
 
-export const organizationPath = () => "/organization";
+export const organizationsPath = () => "/organization";
 export const organizationCreatePath = () => "/organization/create";
 
 export const accountProfilePath = () => "/account/profile";
