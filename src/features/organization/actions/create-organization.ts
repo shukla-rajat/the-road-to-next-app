@@ -30,28 +30,30 @@ export const createOrganization = async (
       name: formData.get("name"),
     });
 
-    const organization = await prisma.organization.create({
-      data: {
-        ...data,
-        memberships: {
-          create: {
-            userId: user.id,
-            isActive: true,
+    await prisma.$transaction(async (tx) => {
+      const organization = await tx.organization.create({
+        data: {
+          ...data,
+          memberships: {
+            create: {
+              userId: user.id,
+              isActive: true,
+            },
           },
         },
-      },
-    });
+      });
 
-    await prisma.membership.updateMany({
-      where: {
-        userId: user.id,
-        organizationId: {
-          not: organization.id,
+      await tx.membership.updateMany({
+        where: {
+          userId: user.id,
+          organizationId: {
+            not: organization.id,
+          },
         },
-      },
-      data: {
-        isActive: false,
-      },
+        data: {
+          isActive: false,
+        },
+      });
     });
   } catch (error) {
     return fromErrorToActionState(error);
