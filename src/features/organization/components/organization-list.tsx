@@ -4,6 +4,7 @@ import {
   LucideArrowUpRightFromSquare,
   LucidePen,
 } from "lucide-react";
+import Link from "next/link";
 
 import { SubmitButton } from "@/components/form/submit-button";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { membershipsPath } from "@/paths";
 
 import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
 import { OrganizationDeleteButton } from "./organization-delete-button";
@@ -64,8 +66,10 @@ const OrganizationList = async ({limitedAccess}: OrganizationListProps) => {
           );
 
           const detailButton = (
-            <Button variant="outline" size="icon">
-              <LucideArrowUpRightFromSquare className="w-4 h-4" />
+            <Button variant="outline" size="icon" asChild>
+              <Link href={membershipsPath(organization.id)}>
+                <LucideArrowUpRightFromSquare className="w-4 h-4" />
+              </Link>
             </Button>
           );
 
