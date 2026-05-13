@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { MembershipDeleteButton } from "@/features/membership/components/membership-delete-button";
 import { membershipsPath } from "@/paths";
 
 import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
@@ -65,6 +66,13 @@ const OrganizationList = async ({limitedAccess}: OrganizationListProps) => {
             />
           );
 
+          const leaveButton = (
+            <MembershipDeleteButton
+              organizationId={organization.id}
+              userId={organization.membershipByUser.userId}
+            />
+          );
+
           const detailButton = (
             <Button variant="outline" size="icon" asChild>
               <Link href={membershipsPath(organization.id)}>
@@ -90,6 +98,7 @@ const OrganizationList = async ({limitedAccess}: OrganizationListProps) => {
               {switchButton}
               {limitedAccess ?  null : detailButton}
               {limitedAccess ?  null : editButton}
+              {limitedAccess ?  null : leaveButton}
               {limitedAccess ?  null : deleteButton}
             </>
           );
