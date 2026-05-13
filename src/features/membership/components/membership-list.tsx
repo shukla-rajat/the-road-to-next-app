@@ -26,6 +26,7 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
           <TableHead>Username</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Verified Email</TableHead>
+          <TableHead>Role</TableHead>
           <TableHead />
         </TableRow>
       </TableHeader>
@@ -51,6 +52,7 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
                   <LucideBan />
                 )}
               </TableCell>
+              <TableCell>{membership.membershipRole}</TableCell>
               <TableCell className="flex justify-end gap-x-2">
                 {buttons}
               </TableCell>
