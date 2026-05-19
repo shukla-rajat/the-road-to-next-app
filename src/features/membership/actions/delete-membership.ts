@@ -24,37 +24,49 @@ export const deleteMembership = async ({
   if (isLastMembership) {
     return toActionState(
       "ERROR",
-      "You cannot delete the last membership of an organization"
+      "You cannot delete the last membership of an organization",
     );
   }
 
   // check if membership exists
-  const targetMembership = (memberships ?? []).find((membership)=> membership.userId === userId);
-  
-  if(!targetMembership){
-    return toActionState("ERROR","Membership not found");
+  const targetMembership = (memberships ?? []).find(
+    (membership) => membership.userId === userId,
+  );
+
+  if (!targetMembership) {
+    return toActionState("ERROR", "Membership not found");
   }
 
   //check if user is deleting last admin
-  const adminMemberships = (memberships ?? []).filter((membership) => membership.membershipRole === "ADMIN" );
+  const adminMemberships = (memberships ?? []).filter(
+    (membership) => membership.membershipRole === "ADMIN",
+  );
 
   const removesAdmin = targetMembership.membershipRole === "ADMIN";
-  const isLastAdmin =  adminMemberships.length <= 1;
+  const isLastAdmin = adminMemberships.length <= 1;
 
   //check if user is authorized
-  const myMembership = (memberships ?? []).find((membership)=> membership.userId === user?.id);
+  const myMembership = (memberships ?? []).find(
+    (membership) => membership.userId === user?.id,
+  );
 
   const isMyself = user.id === userId;
   const isAdmin = myMembership?.membershipRole === "ADMIN";
 
-  if(!isAdmin && !isMyself){
-    return toActionState("ERROR", "You can only delete memberships as an admin.")
+  if (!isAdmin && !isMyself) {
+    return toActionState(
+      "ERROR",
+      "You can only delete memberships as an admin.",
+    );
   }
 
   //Okay - everything checked
 
-  if(removesAdmin && isLastAdmin){
-    return toActionState("ERROR", "You cannot delete the last admin of an organization");
+  if (removesAdmin && isLastAdmin) {
+    return toActionState(
+      "ERROR",
+      "You cannot delete the last admin of an organization",
+    );
   }
 
   await prisma.membership.delete({
@@ -66,5 +78,10 @@ export const deleteMembership = async ({
     },
   });
 
-  return toActionState("SUCCESS", "Membership has been deleted");
+  return toActionState(
+    "SUCCESS",
+    isMyself
+      ? "You left the organization."
+      : "The Membership has been deleted.",
+  );
 };
