@@ -1,5 +1,6 @@
 export const ticketsPath = () => "/tickets";
 export const ticketPath = (ticketId : string) => `/tickets/${ticketId}`;
+export const ticketByOrganizationPath = () => "/tickets/organization";
 export const ticketEditPath = (ticketId : string) => `/tickets/${ticketId}/edit`
 export const homePath = () => "/";
 
