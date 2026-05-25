@@ -5,9 +5,9 @@ export default async function AdminLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ organizationId: string }>;
+  params: Promise<{ organisationId: string }>;
 }>) {
-  const { organizationId } = await params;
+  const { organisationId: organizationId } = await params;
 
   await getAdminOrRedirect(organizationId);
 
