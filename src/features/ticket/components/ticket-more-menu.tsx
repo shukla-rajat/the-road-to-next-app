@@ -1,6 +1,6 @@
 "use client";
 
-import { Ticket, TicketStatus } from "@prisma/client";
+import {  TicketStatus } from "@prisma/client";
 import { LucideTrash } from "lucide-react";
 import { toast } from "sonner";
 
@@ -18,9 +18,10 @@ import { deleteTicket } from "@/features/ticket/actions/delete-ticket";
 
 import { updateTicketStatus } from "../actions/update-ticket-status";
 import { TICKET_STATUS_LABELS } from "../constants";
+import { TicketWithMetadata } from "../types";
 
 type TicketMoreMenuProps = {
-  ticket: Ticket;
+  ticket: TicketWithMetadata;
   trigger: React.ReactElement;
 };
 
@@ -28,7 +29,7 @@ const TicketMoreMenu = ({ ticket, trigger }: TicketMoreMenuProps) => {
   const [ deleteButton, deleteDialog ] = useConfirmDialog({
     action: deleteTicket.bind(null, ticket.id),
     trigger: (
-      <DropdownMenuItem>
+      <DropdownMenuItem disabled={!ticket.permissions.canDeleteTicket}>
         <LucideTrash className="h-4 w-4" />
         <span>Delete</span>
       </DropdownMenuItem>
