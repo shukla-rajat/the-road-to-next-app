@@ -1,11 +1,11 @@
 import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from '@/features/auth/utils/is-owner';
-import { getActiveMembership } from "@/features/membership/queries/get-active-membership";
 import { prisma } from '@/lib/prisma';
+
+import { getTicketPermissions } from "../permissions/get-ticket-permission";
 
 export const getTicket = async (id : string) => {
     const { user } = await getAuth();
-    const activeMembership = await getActiveMembership();
 
     const ticket =  await prisma.ticket.findUnique({
         where: {
@@ -24,11 +24,16 @@ export const getTicket = async (id : string) => {
         return null;
     }
 
+    const permissions = await getTicketPermissions({
+        organizationId: ticket.organizationId,
+        userId: user?.id
+    });
+
     return {
       ...ticket,
       isOwner: isOwner(user, ticket),
       permissions: {
-        isOwner: isOwner(user, ticket) && !!activeMembership?.canDeleteTicket,
+        isOwner: isOwner(user, ticket) && !!permissions?.canDeleteTicket,
       },
     };
 };
