@@ -4,6 +4,8 @@ import { Heading } from "@/components/heading";
 import { Spinner } from "@/components/spinner";
 import { MembershipList } from "@/features/membership/components/membership-list";
 
+import { OrganizationBreadcrumbs } from "../_navigation/tabs";
+
 type MembershipsPageProps = {
   params: Promise<{
     organisationId: string;
@@ -18,6 +20,7 @@ const MembershipsPage = async ({ params }: MembershipsPageProps) => {
       <Heading
         title="Memberships"
         description="Manage members in your organization"
+        tabs={<OrganizationBreadcrumbs />}
       />
 
       <Suspense fallback={<Spinner />}>
