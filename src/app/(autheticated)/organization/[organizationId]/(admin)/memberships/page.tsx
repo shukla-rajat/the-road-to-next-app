@@ -8,12 +8,12 @@ import { OrganizationBreadcrumbs } from "../_navigation/tabs";
 
 type MembershipsPageProps = {
   params: Promise<{
-    organisationId: string;
+    organizationId: string;
   }>;
 };
 
 const MembershipsPage = async ({ params }: MembershipsPageProps) => {
-  const { organisationId: organizationId } = await params;
+  const { organizationId } = await params;
 
   return (
     <div className="flex-1 flex flex-col gap-y-8">
