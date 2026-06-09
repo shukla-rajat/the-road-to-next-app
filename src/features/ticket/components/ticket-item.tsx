@@ -5,6 +5,7 @@ import {
   LucideSquareArrowOutUpRight,
 } from "lucide-react";
 import Link from "next/link";
+import React from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,9 +26,10 @@ type TicketItemProps = {
   ticket: TicketWithMetadata; 
   isDetail?: boolean;
   comments?: React.ReactNode;
+  attachments?: React.ReactNode;
 };
 
-const TicketItem = ({ ticket, isDetail, comments }: TicketItemProps) => {
+const TicketItem = ({ ticket, isDetail, comments, attachments }: TicketItemProps) => {
 
   const detailButton = (
     <Button variant="outline" size="icon" asChild>
@@ -104,6 +106,7 @@ const TicketItem = ({ ticket, isDetail, comments }: TicketItemProps) => {
           )}
         </div>
       </div>
+      {attachments}
       {comments}
     </div>
   );

@@ -33,7 +33,7 @@ export const getTicket = async (id : string) => {
       ...ticket,
       isOwner: isOwner(user, ticket),
       permissions: {
-        isOwner: isOwner(user, ticket) && !!permissions?.canDeleteTicket,
+        canDeleteTicket: isOwner(user, ticket) && !!permissions?.canDeleteTicket,
       },
     };
 };
