@@ -6,11 +6,11 @@ import { CardCompact } from "@/components/card-compact";
 import { PaginatedData } from "@/components/pagination/types";
 import { Button } from "@/components/ui/button";
 
-import { getComments } from "../queries/get-comments";
-import { CommentWithMetadata } from "../types";
-import { CommentCreateForm } from "./comment-create-form";
-import { CommentDeleteButton } from "./comment-delete-button";
-import { CommentItem } from "./comment-item";
+import { getComments } from "../../queries/get-comments";
+import { CommentWithMetadata } from "../../types";
+import { CommentCreateForm } from "../comment-create-form";
+import { CommentDeleteButton } from "../comment-delete-button";
+import { CommentItem } from "../comment-item";
 
 type CommentsProps = {
   ticketId: string;
@@ -61,12 +61,12 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
             buttons={[
               ...(comment.isOwner
                 ? [
-                    <CommentDeleteButton
-                      key="0"
-                      id={comment.id}
-                      onDeleteComment={handleDeleteComment}
-                    />,
-                  ]
+                  <CommentDeleteButton
+                    key="0"
+                    id={comment.id}
+                    onDeleteComment={handleDeleteComment}
+                  />,
+                ]
                 : []),
             ]}
           />
