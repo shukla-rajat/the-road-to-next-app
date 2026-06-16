@@ -9,8 +9,7 @@ import { Button } from "@/components/ui/button";
 import { getComments } from "../../queries/get-comments";
 import { CommentWithMetadata } from "../../types";
 import { CommentCreateForm } from "../comment-create-form";
-import { CommentDeleteButton } from "../comment-delete-button";
-import { CommentItem } from "../comment-item";
+import { CommentList } from "../comment-list";
 
 type CommentsProps = {
   ticketId: string;
@@ -54,21 +53,7 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
         }
       />
       <div className="flex flex-col gap-y-2 ml-8">
-        {comments.map((comment) => {
-          const commentDeleteButton = (
-            <CommentDeleteButton
-              key="0"
-              id={comment.id}
-              onDeleteComment={handleDeleteComment}
-            />
-          );
-
-          const buttons = [...(comment.isOwner ? [commentDeleteButton] : [])];
-
-          return (
-            <CommentItem key={comment.id} comment={comment} buttons={buttons} />
-          );
-        })}
+      <CommentList comments={comments} onDeleteComment={handleDeleteComment} />
       </div>
       <div className="flex flex-col justify-center ml-8">
         {metadata.hasNextPage && (
