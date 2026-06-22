@@ -17,9 +17,10 @@ import { prisma } from "@/lib/prisma";
 import { ticketPath } from "@/paths";
 
 import { ACCEPTED, MAX_SIZE } from "../constants";
+import { isComment,isTicket } from "../types";
+import { getOrganizationIdByAttachment } from "../utils/attachment-helper";
 import { generateS3Key } from "../utils/generateS3Key";
 import { sizeInMB } from "../utils/size";
-import { isTicket, isComment } from "../types";
 
 const createAttachmentsSchema = z.object({
   files: z
@@ -91,8 +92,6 @@ export const createAttachments = async (
     for (const file of files) {
       const buffer = await Buffer.from(await file.arrayBuffer());
 
-      // TODO: upload to S3
-      // TODO: create a database reference to S3 file
       const attachment = await prisma.attachment.create({
         data: {
           name: file.name,
@@ -102,21 +101,7 @@ export const createAttachments = async (
         },
       });
 
-      let organizationId = "";
-      switch (entity) {
-        case "TICKET": {
-          if (isTicket(subject)) {
-            organizationId = subject.organizationId;
-          }
-          break;
-        }
-        case "COMMENT": {
-          if (isComment(subject)) {
-            organizationId = subject.ticket.organizationId;
-          }
-          break;
-        }
-      }
+      const organizationId = getOrganizationIdByAttachment(entity,subject);
 
       await s3.send(
         new PutObjectCommand({
