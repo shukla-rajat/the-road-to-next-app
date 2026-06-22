@@ -19,6 +19,7 @@ import { ticketPath } from "@/paths";
 import { ACCEPTED, MAX_SIZE } from "../constants";
 import { generateS3Key } from "../utils/generateS3Key";
 import { sizeInMB } from "../utils/size";
+import { isTicket, isComment } from "../types";
 
 const createAttachmentsSchema = z.object({
   files: z
@@ -104,11 +105,15 @@ export const createAttachments = async (
       let organizationId = "";
       switch (entity) {
         case "TICKET": {
-          organizationId = subject.organizationId;
+          if (isTicket(subject)) {
+            organizationId = subject.organizationId;
+          }
           break;
         }
         case "COMMENT": {
-          organizationId = subject.ticket.organizationId;
+          if (isComment(subject)) {
+            organizationId = subject.ticket.organizationId;
+          }
           break;
         }
       }
@@ -135,11 +140,15 @@ export const createAttachments = async (
 
   switch (entity) {
     case "TICKET": {
-      revalidatePath(ticketPath(subject.id));
+      if (isTicket(subject)) {
+        revalidatePath(ticketPath(subject.id));
+      }
       break;
     }
     case "COMMENT": {
-      revalidatePath(ticketPath(subject.ticket.id));
+      if (isComment(subject)) {
+        revalidatePath(ticketPath(subject.ticket.id));
+      }
       break;
     }
   }
