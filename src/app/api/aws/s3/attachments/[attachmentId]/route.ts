@@ -6,10 +6,11 @@ import { generateS3Key } from "@/features/attachments/utils/generateS3Key";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { s3 } from "@/lib/aws";
 import { prisma } from "@/lib/prisma";
+import { getOrganizationIdByAttachment } from "@/features/attachments/utils/attachment-helper";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ attachmentId: string }> }
+  { params }: { params: Promise<{ attachmentId: string }> },
 ) {
   await getAuthOrRedirect();
 
@@ -21,21 +22,36 @@ export async function GET(
     },
     include: {
       ticket: true,
+      comment: {
+        include: {
+          ticket: true,
+        },
+      },
     },
   });
+
+  const subject = attachment.ticket ?? attachment.comment;
+
+  if (!subject) {
+    throw new Error("Subject not found");
+  }
 
   const presignedUrl = await getSignedUrl(
     s3,
     new GetObjectCommand({
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: generateS3Key({
-        organizationId: attachment.ticket.organizationId,
-        ticketId: attachment.ticket.id,
+        organizationId: getOrganizationIdByAttachment(
+          attachment.entity,
+          subject,
+        ),
+        entityId: subject.id,
+        entity: attachment.entity,
         fileName: attachment.name,
         attachmentId: attachment.id,
       }),
     }),
-    { expiresIn: 5 * 60 }
+    { expiresIn: 5 * 60 },
   );
 
   const response = await fetch(presignedUrl);
@@ -43,7 +59,7 @@ export async function GET(
   const headers = new Headers();
   headers.append(
     "content-disposition",
-    `attachment; filename="${attachment.name}"`
+    `attachment; filename="${attachment.name}"`,
   );
 
   return new Response(response.body, {
