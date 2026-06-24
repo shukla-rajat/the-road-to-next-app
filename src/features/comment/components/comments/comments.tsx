@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 import { CardCompact } from "@/components/card-compact";
-import { PaginatedData } from "@/components/pagination/types";
-import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { PaginatedData } from "@/types/pagination";
 
-import { getComments } from "../../queries/get-comments";
 import { CommentWithMetadata } from "../../types";
 import { CommentCreateForm } from "../comment-create-form";
 import { CommentList } from "../comment-list";
+import { usePaginatedComments } from "./use-paginated-comments";
 
 type CommentsProps = {
   ticketId: string;
@@ -17,28 +18,24 @@ type CommentsProps = {
 };
 
 const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
-  const [comments, setComments] = useState(paginatedComments.list);
-  const [metadata, setMetadata] = useState(paginatedComments.metadata);
+  const {
+    comments,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    onCreateComment,
+    onDeleteComment,
+    onCreateAttachment,
+    onDeleteAttachment,
+  } = usePaginatedComments(ticketId, paginatedComments);
 
-  const handleMore = async () => {
-    const morePaginatedComments = await getComments(ticketId, metadata.cursor);
-    const moreComments = morePaginatedComments.list;
+  const { ref, inView } = useInView();
 
-    setComments([...comments, ...moreComments]);
-    setMetadata(morePaginatedComments.metadata);
-  };
-
-  const handleDeleteComment = (id: string) => {
-    setComments((prevComments) =>
-      prevComments.filter((comment) => comment.id !== id)
-    );
-  };
-
-  const handleCreateComment = (comment: CommentWithMetadata | undefined) => {
-    if (!comment) return;
-
-    setComments((prevComments) => [comment, ...prevComments]);
-  };
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, hasNextPage, inView, isFetchingNextPage]);
 
   return (
     <>
@@ -48,18 +45,35 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
         content={
           <CommentCreateForm
             ticketId={ticketId}
-            onCreateComment={handleCreateComment}
+            onCreateComment={onCreateComment}
           />
         }
       />
       <div className="flex flex-col gap-y-2 ml-8">
-      <CommentList comments={comments} onDeleteComment={handleDeleteComment} />
+        <CommentList
+          comments={comments}
+          onDeleteComment={onDeleteComment}
+          onCreateAttachment={onCreateAttachment}
+          onDeleteAttachment={onDeleteAttachment}
+        />
+
+        {isFetchingNextPage && (
+          <>
+            <div className="flex gap-x-2">
+              <Skeleton className="h-[82px] w-full" />
+              <Skeleton className="h-[40px] w-[40px]" />
+            </div>
+            <div className="flex gap-x-2">
+              <Skeleton className="h-[82px] w-full" />
+              <Skeleton className="h-[40px] w-[40px]" />
+            </div>
+          </>
+        )}
       </div>
-      <div className="flex flex-col justify-center ml-8">
-        {metadata.hasNextPage && (
-          <Button variant="ghost" onClick={handleMore}>
-            More
-          </Button>
+
+      <div ref={ref}>
+        {!hasNextPage && (
+          <p className="text-right text-xs italic">No more comments.</p>
         )}
       </div>
     </>

@@ -46,6 +46,7 @@
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-day-picker": "^8.10.1",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
+    "react-intersection-observer": "^10.0.3",
     "resend": "^6.9.4",
     "sonner": "^1.7.0",
     "tailwind-merge": "^2.5.4",
