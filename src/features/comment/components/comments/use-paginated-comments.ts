@@ -1,4 +1,4 @@
-/*import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 
 import { PaginatedData } from "@/types/pagination";
 
@@ -7,7 +7,7 @@ import { CommentWithMetadata } from "../../types";
 
 export const usePaginatedComments = (
   ticketId: string,
-  paginatedComments: PaginatedData<CommentWithMetadata>,
+  paginatedComments: PaginatedData<CommentWithMetadata>
 ) => {
   const queryKey = ["comments", ticketId];
 
@@ -41,4 +41,4 @@ export const usePaginatedComments = (
     onCreateComment: () => queryClient.invalidateQueries({ queryKey }),
     onDeleteComment: () => queryClient.invalidateQueries({ queryKey }),
   };
-};*/
+};

@@ -15,13 +15,13 @@ import { ACCEPTED } from "../constants";
 type AttachmentCreateFormProps = {
   entityId: string;
   entity: AttachmentEntity;
-  buttons: React.ReactNode;
+  buttons?: React.ReactNode;
   onSuccess?: () => void;
 };
 
 const AttachmentCreateForm = ({ entityId, entity, buttons, onSuccess }: AttachmentCreateFormProps) => {
   const [actionState, action] = useActionState(
-    createAttachments.bind(null, {entityId, entity}),
+    createAttachments.bind(null, { entityId, entity }),
     EMPTY_ACTION_STATE
   );
 
@@ -36,7 +36,7 @@ const AttachmentCreateForm = ({ entityId, entity, buttons, onSuccess }: Attachme
       />
       <FieldError actionState={actionState} name="files" />
 
-      { buttons || <SubmitButton label="Upload" /> }
+      {buttons || <SubmitButton label="Upload" />}
     </Form>
   );
 };
