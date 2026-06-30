@@ -14,8 +14,8 @@ model Organization {
   updatedAt   DateTime     @updatedAt
   name        String
   memberships Membership[]
-  tickets     Ticket[]
   invitations Invitation[]
+  tickets     Ticket[]
 }
 
 model Invitation {
@@ -29,7 +29,6 @@ model Invitation {
   invitedByUserId String?
   status          InvitationStatus @default(PENDING)
 
-  @@id(name: "invitationId", [organizationId, email])
   @@index([organizationId])
 }
 
@@ -48,6 +47,7 @@ model Membership {
   isActive       Boolean
   membershipRole MembershipRole @default(MEMBER)
 
+  // permissions
   canDeleteTicket Boolean @default(true)
 
   @@id(name: "membershipId", [organizationId, userId])
@@ -56,8 +56,8 @@ model Membership {
 }
 
 enum MembershipRole {
-  MEMBER
   ADMIN
+  MEMBER
 }
 
 model User {
@@ -69,10 +69,10 @@ model User {
   sessions                Session[]
   passwordResetTokens     PasswordResetToken[]
   emailVerificationTokens EmailVerificationToken[]
+  invitesByUser           Invitation[]
   memberships             Membership[]
   tickets                 Ticket[]
   comments                Comment[]
-  invitesByUser           Invitation[]
 }
 
 model Session {
@@ -116,31 +116,19 @@ model Ticket {
   bounty         Int
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String
-  comments       Comment[]
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
+  comments       Comment[]
   attachments    Attachment[]
 
   @@index([userId])
   @@index([organizationId])
 }
 
-model Attachment {
-  id        String           @id @default(cuid())
-  name      String
-  entity    AttachmentEntity
-  ticket    Ticket?          @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-  ticketId  String?
-  comment   Comment?         @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  commentId String?
-
-  @@index([ticketId])
-  @@index([commentId])
-}
-
-enum AttachmentEntity {
-  TICKET
-  COMMENT
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  DONE
 }
 
 model Comment {
@@ -157,8 +145,20 @@ model Comment {
   @@index([userId])
 }
 
-enum TicketStatus {
-  OPEN
-  IN_PROGRESS
-  DONE
+model Attachment {
+  id   String @id @default(cuid())
+  name String
+
+  entity    AttachmentEntity
+  ticket    Ticket?          @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketId  String?
+  comment   Comment?         @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String?
+
+  @@index([ticketId])
+}
+
+enum AttachmentEntity {
+  TICKET
+  COMMENT
 }
