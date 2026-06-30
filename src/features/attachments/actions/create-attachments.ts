@@ -17,7 +17,7 @@ import { prisma } from "@/lib/prisma";
 import { ticketPath } from "@/paths";
 
 import { ACCEPTED, MAX_SIZE } from "../constants";
-import * as attachmentService from "../service/get-attachment-subject";
+import * as attachmentService from "../service";
 import { isComment,isTicket } from "../types";
 import { getOrganizationIdByAttachment } from "../utils/attachment-helper";
 import { generateS3Key } from "../utils/generateS3Key";
