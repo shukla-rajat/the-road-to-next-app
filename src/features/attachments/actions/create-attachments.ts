@@ -15,25 +15,28 @@ import { ticketPath } from "@/paths";
 
 import { filesSchema } from "../schema/files";
 import * as attachmentService from "../service";
-import { isComment,isTicket } from "../types";
 
 const createAttachmentsSchema = z.object({
-  files: filesSchema.refine((files) => files.length !== 0, "File is required"),
+  files: filesSchema,
 });
 
-type CreateAttachmentArgs = {
-  entity: AttachmentEntity;
+type CreateAttachmentsArgs = {
   entityId: string;
+  entity: AttachmentEntity;
 };
 
 export const createAttachments = async (
-  { entityId, entity }: CreateAttachmentArgs,
+  { entityId, entity }: CreateAttachmentsArgs,
   _actionState: ActionState,
-  formData: FormData,
+  formData: FormData
 ) => {
   const { user } = await getAuthOrRedirect();
 
-  const subject = await attachmentService.getAttachmentSubject(entityId, entity);
+  const subject = await attachmentService.getAttachmentSubject(
+    entityId,
+    entity,
+    user
+  );
 
   if (!subject) {
     return toActionState("ERROR", "Subject not found");
@@ -58,17 +61,12 @@ export const createAttachments = async (
     return fromErrorToActionState(error);
   }
 
-  switch (entity) {
-    case "TICKET": {
-      if (isTicket(subject)) {
-        revalidatePath(ticketPath(subject.id));
-      }
+  switch (subject.entity) {
+    case "TICKET":
+      revalidatePath(ticketPath(subject.ticketId));
       break;
-    }
     case "COMMENT": {
-      if (isComment(subject)) {
-        revalidatePath(ticketPath(subject.ticket.id));
-      }
+      revalidatePath(ticketPath(subject.ticketId));
       break;
     }
   }
