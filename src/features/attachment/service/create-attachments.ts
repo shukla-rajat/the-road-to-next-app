@@ -1,7 +1,7 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { AttachmentEntity } from "@prisma/client";
 
-import { generateS3Key } from "@/features/attachments/utils/generateS3Key";
+import { generateS3Key } from "@/features/attachment/utils/generateS3Key";
 import { s3 } from "@/lib/aws";
 import { prisma } from "@/lib/prisma";
 
@@ -48,7 +48,7 @@ export const createAttachments = async ({
           }),
           Body: buffer,
           ContentType: file.type,
-        })
+        }),
       );
     }
   } catch (error) {

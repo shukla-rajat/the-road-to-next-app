@@ -2,8 +2,8 @@ import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { NextRequest } from "next/server";
 
-import { getOrganizationIdByAttachment } from "@/features/attachments/utils/attachment-helper";
-import { generateS3Key } from "@/features/attachments/utils/generateS3Key";
+import { getOrganizationIdByAttachment } from "@/features/attachment/utils/attachment-helper";
+import { generateS3Key } from "@/features/attachment/utils/generateS3Key";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { s3 } from "@/lib/aws";
 import { prisma } from "@/lib/prisma";

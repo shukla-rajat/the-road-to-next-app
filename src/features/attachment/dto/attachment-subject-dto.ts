@@ -8,7 +8,7 @@ export type Type = {
   organizationId: string;
   userId: string | null;
   ticketId: string;
-  commentId: string | null  ;
+  commentId: string | null;
 };
 
 export const fromTicket = (

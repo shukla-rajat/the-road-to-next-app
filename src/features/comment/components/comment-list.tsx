@@ -1,5 +1,5 @@
-import { AttachmentDeleteButton } from "@/features/attachments/components/attachment-delete-button";
-import { AttachmentList } from "@/features/attachments/components/attachment-list";
+import { AttachmentDeleteButton } from "@/features/attachment/components/attachment-delete-button";
+import { AttachmentList } from "@/features/attachment/components/attachment-list";
 
 import { CommentWithMetadata } from "../types";
 import { CommentDeleteButton } from "./comment-delete-button";
@@ -46,12 +46,12 @@ const CommentList = ({
                 buttons={(attachmentId) => [
                   ...(comment.isOwner
                     ? [
-                        <AttachmentDeleteButton
-                          key="0"
-                          id={attachmentId}
-                          onDeleteAttachment={onDeleteAttachment}
-                        />,
-                      ]
+                      <AttachmentDeleteButton
+                        key="0"
+                        id={attachmentId}
+                        onDeleteAttachment={onDeleteAttachment}
+                      />,
+                    ]
                     : []),
                 ]}
               />

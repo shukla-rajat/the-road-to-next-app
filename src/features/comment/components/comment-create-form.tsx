@@ -8,7 +8,7 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { ActionState, EMPTY_ACTION_STATE } from "@/components/form/utils/to-action-state";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ACCEPTED } from "@/features/attachments/constants";
+import { ACCEPTED } from "@/features/attachment/constants";
 
 import { createComment } from "../actions/create-comment";
 import { CommentWithMetadata } from "../types";

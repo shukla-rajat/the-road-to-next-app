@@ -8,8 +8,8 @@ import {
   fromErrorToActionState,
   toActionState,
 } from "@/components/form/utils/to-action-state";
-import { filesSchema } from "@/features/attachments/schema/files";
-import * as attachmentService from "@/features/attachments/service";
+import { filesSchema } from "@/features/attachment/schema/files";
+import * as attachmentService from "@/features/attachment/service";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { ticketPath } from "@/paths";
 
