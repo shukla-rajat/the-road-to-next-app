@@ -61,15 +61,7 @@ export const createAttachments = async (
     return fromErrorToActionState(error);
   }
 
-  switch (subject.entity) {
-    case "TICKET":
-      revalidatePath(ticketPath(subject.ticketId));
-      break;
-    case "COMMENT": {
-      revalidatePath(ticketPath(subject.ticketId));
-      break;
-    }
-  }
+  revalidatePath(ticketPath(subject.ticketId));
 
   return toActionState("SUCCESS", "Attachment(s) uploaded");
 };

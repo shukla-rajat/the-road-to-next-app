@@ -6,16 +6,10 @@ import { s3 } from "@/lib/aws";
 import { prisma } from "@/lib/prisma";
 
 import * as attachmentData from "../data";
+import * as attachmentSubjectDTO from "../dto/attachment-subject-dto";
 
 type CreateAttachmentsArgs = {
-  subject: {
-    entityId: string;
-    entity: AttachmentEntity;
-    organizationId: string;
-    userId: string;
-    ticketId: string;
-    commentId: string | null;
-  };
+  subject: attachmentSubjectDTO.Type;
   entity: AttachmentEntity;
   entityId: string;
   files: File[];
