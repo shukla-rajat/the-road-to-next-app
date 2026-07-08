@@ -26,10 +26,11 @@ type TicketItemProps = {
   ticket: TicketWithMetadata; 
   isDetail?: boolean;
   comments?: React.ReactNode;
+  referencedTickets?: React.ReactNode;
   attachments?: React.ReactNode;
 };
 
-const TicketItem = ({ ticket, isDetail, comments, attachments }: TicketItemProps) => {
+const TicketItem = ({ ticket, isDetail, comments, referencedTickets, attachments }: TicketItemProps) => {
 
   const detailButton = (
     <Button variant="outline" size="icon" asChild>
@@ -107,6 +108,7 @@ const TicketItem = ({ ticket, isDetail, comments, attachments }: TicketItemProps
         </div>
       </div>
       {attachments}
+      {referencedTickets}
       {comments}
     </div>
   );
