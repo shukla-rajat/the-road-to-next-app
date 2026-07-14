@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { fromErrorToActionState, toActionState } from "@/components/form/utils/to-action-state";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
+import * as ticketService from "@/features/ticket/service";
 import { prisma } from "@/lib/prisma";
 import { ticketPath } from "@/paths";
 
@@ -26,6 +27,8 @@ export const deleteComment = async (id: string) => {
     } catch(error) {
         return fromErrorToActionState(error);
     }
+
+    await ticketService.disconnectReferencedTicketsViaComment(comment);
     
     revalidatePath(ticketPath(comment.ticketId));
 
