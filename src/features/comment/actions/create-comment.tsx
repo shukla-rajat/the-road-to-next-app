@@ -12,7 +12,9 @@ import * as attachmentSubjectDTO from "@/features/attachment/dto/attachment-subj
 import { filesSchema } from "@/features/attachment/schema/files";
 import * as attachmentService from "@/features/attachment/service";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
+import * as ticketData from "@/features/ticket/data";
 import { ticketPath } from "@/paths";
+import { findTicketIdsFromText } from "@/utils/find-ids-from-text";
 
 import * as commentData from "../data";
 
@@ -53,6 +55,11 @@ export const createComment = async (
       entityId: comment.id,
       files
     })
+
+    await ticketData.connectReferencedTickets(
+      ticketId,
+      findTicketIdsFromText("tickets", content)
+    );
   } catch (error) {
     return fromErrorToActionState(error);
   }
