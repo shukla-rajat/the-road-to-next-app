@@ -1,11 +1,11 @@
 import { SelectTrigger } from "@radix-ui/react-select";
-
 import { useTransition } from "react";
 
 import { PaginatedData } from "@/components/pagination/types";
 
 import { Button } from "../ui/button";
 import { Select, SelectContent, SelectItem,SelectValue } from "../ui/select";
+import { PAGE_SIZES } from "./constants";
 
 type PageAndSize = {
   page: number;
@@ -77,11 +77,11 @@ const Pagination = ({
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="5">5</SelectItem>
-        <SelectItem value="10">10</SelectItem>
-        <SelectItem value="25">25</SelectItem>
-        <SelectItem value="50">50</SelectItem>
-        <SelectItem value="100">100</SelectItem>
+        {PAGE_SIZES.map((size) => (
+          <SelectItem key={size} value={size.toString()}>
+            {size}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );
