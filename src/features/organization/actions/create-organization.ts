@@ -9,6 +9,7 @@ import {
   fromErrorToActionState,
 } from "@/components/form/utils/to-action-state";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
+import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { membershipsPath, ticketsPath } from "@/paths";
 
@@ -62,9 +63,17 @@ export const createOrganization = async (
     return fromErrorToActionState(error);
   }
 
+  await inngest.send({
+    name: "app/organization.created",
+    data: {
+      organizationId: organization.id,
+      byEmail: user.email,
+    },
+  });
+
   await setCookieByKey(
     "toast",
-    `<a href=${membershipsPath(organization.id)}>Organization</a> created`
+    `<a href=${membershipsPath(organization.id)}>Organization</a> created`,
   );
   redirect(ticketsPath());
 };
