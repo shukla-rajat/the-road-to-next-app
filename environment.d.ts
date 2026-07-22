@@ -1,11 +1,14 @@
-import { S3Client } from "@aws-sdk/client-s3";
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      NODE_ENV: "development" | "production";
+      AWS_ACCESS_KEY: string;
+      AWS_SECRET_ACCESS_KEY: string;
+      AWS_BUCKET_NAME: string;
+      AWS_REGION: string;
+      STRIPE_SECRET_KEY: string;
+    }
+  }
+}
 
-const s3 = new S3Client({
-  region: process.env.AWS_BUCKET_REGION,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  },
-});
-
-export { s3 };
+export {};
