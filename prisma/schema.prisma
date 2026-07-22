@@ -17,6 +17,14 @@ model Organization {
   memberships Membership[]
   invitations Invitation[]
   tickets     Ticket[]
+  stripeCustomerId String?
+  stripeCustomer   StripeCustomer?
+}
+
+model StripeCustomer {
+  organizationId String       @unique
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  customerId     String       @unique
 }
 
 model Credential {
