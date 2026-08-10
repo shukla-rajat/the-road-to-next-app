@@ -1,12 +1,12 @@
 import { User } from "@prisma/client";
-import { LucideLogOut, LucideUser } from "lucide-react";
+import { LucideGem, LucideLogOut, LucideUser } from "lucide-react";
 import Link from "next/link";
 
 import { Avatar,AvatarFallback } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { signOut } from "@/features/auth/actions/sign-out";
-import { accountPasswordPath, accountProfilePath } from "@/paths";
+import { accountPasswordPath, accountProfilePath, pricingPath } from "@/paths";
 
 type AccountDropdownProps = {
     user: User;
@@ -33,6 +33,13 @@ const AccountDropdown = ({ user }: AccountDropdownProps) => {
                     <Link href={accountPasswordPath()}>
                         <LucideUser className="mr-2 h-4 w-4" />
                         <span>Password</span>
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                    <Link href={pricingPath()}>
+                        <LucideGem className="mr-2 h-4 w-4" />
+                        <span>Pricing</span>
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
