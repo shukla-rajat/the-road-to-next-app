@@ -3,7 +3,7 @@
 import { useParams, usePathname } from "next/navigation";
 
 import { Breadcrumbs } from "@/components/breadcrumbs";
-import { credentialsPath,invitationsPath, membershipsPath, organizationsPath } from "@/paths";
+import { credentialsPath,invitationsPath, membershipsPath, organizationsPath, subscriptionPath } from "@/paths";
 
 const OrganizationBreadcrumbs = () => {
   const params = useParams<{ organizationId: string }>();
@@ -33,6 +33,10 @@ const OrganizationBreadcrumbs = () => {
             {
               title: "Credentials",
               href: credentialsPath(params.organizationId),
+            },
+            {
+              title: "Subscription",
+              href: subscriptionPath(params.organizationId),
             },
           ],
         },
