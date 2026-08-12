@@ -1,8 +1,10 @@
+import { LucideSettings } from "lucide-react";
 import Link from "next/link";
 
 import { Heading } from "@/components/heading";
 import { Placeholder } from "@/components/placeholder";
 import { Button } from "@/components/ui/button";
+import { CustomerPortalForm } from "@/features/stripe/components/customer-portal-form";
 import { pricingPath } from "@/paths";
 
 import { OrganizationBreadcrumbs } from "../_navigation/tabs";
@@ -22,6 +24,14 @@ const SubscriptionPage = async ({ params }: SubscriptionPageProps) => {
         title="Subscription"
         description="Manage your subscription"
         tabs={<OrganizationBreadcrumbs />}
+        actions={
+          <CustomerPortalForm organizationId={organizationId}>
+            <>
+              <LucideSettings className="w-4 h-4" />
+              Manage Subscription
+            </>
+          </CustomerPortalForm>
+        }
       />
 
       <Placeholder
