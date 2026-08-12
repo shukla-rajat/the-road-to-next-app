@@ -1,5 +1,6 @@
 "use client";
 
+import { clsx } from "clsx";
 import { useActionState } from "react";
 
 import { Form } from "@/components/form/form";
@@ -11,21 +12,38 @@ type CheckoutSessionFormProps = {
   organizationId: string | null | undefined;
   priceId: string;
   children: React.ReactNode;
+  activePriceId: string | null | undefined;
 };
 
 const CheckoutSessionForm = ({
   organizationId,
   priceId,
   children,
+  activePriceId,
 }: CheckoutSessionFormProps) => {
   const [actionState, action] = useActionState(
     createCheckoutSession.bind(null, organizationId, priceId),
     EMPTY_ACTION_STATE
   );
 
+  const isActivePrice = activePriceId === priceId;
+
   return (
     <Form action={action} actionState={actionState}>
-      <Button type="submit">{children}</Button>
+      <Button
+        type="submit"
+        disabled={isActivePrice}
+        className={clsx("flex flex-col", {
+          "h-16": !!activePriceId,
+        })}
+      >
+        {!activePriceId ? null : isActivePrice ? (
+          <span>Current Plan</span>
+        ) : (
+          <span>Other Plan</span>
+        )}
+        <div>{children}</div>
+      </Button>
     </Form>
   );
 };
