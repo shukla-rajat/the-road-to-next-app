@@ -8,6 +8,8 @@ import { EMPTY_ACTION_STATE } from "@/components/form/utils/to-action-state";
 import { Button } from "@/components/ui/button";
 import { createCheckoutSession } from "@/features/stripe/actions/create-checkout-session";
 
+import { createCustomerPortal } from "../actions/create-customer-portal";
+
 type CheckoutSessionFormProps = {
   organizationId: string | null | undefined;
   priceId: string;
@@ -22,7 +24,9 @@ const CheckoutSessionForm = ({
   activePriceId,
 }: CheckoutSessionFormProps) => {
   const [actionState, action] = useActionState(
-    createCheckoutSession.bind(null, organizationId, priceId),
+    !activePriceId
+      ? createCheckoutSession.bind(null, organizationId, priceId)
+      : createCustomerPortal.bind(null, organizationId),
     EMPTY_ACTION_STATE
   );
 
